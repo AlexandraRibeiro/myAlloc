@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc.c                                           :+:      :+:    :+:   */
+/*   my_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/08 13:25:54 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:47:47 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "malloc.h"
+#include "memory.h"
 
 int		main(int ac, char *av[])
 {
@@ -18,9 +18,9 @@ int		main(int ac, char *av[])
 	int nb;
 	char c;
 	char *str;
-	struct rlimit curr_limits;
+	struct rlimit limits;
 
-	if (ac == 1)
+	if (ac < 3)
 		return (0);
 	i = 0;
 	c = av[1][0];
@@ -41,15 +41,15 @@ int		main(int ac, char *av[])
 	//printf("Declenche normalement un SEGFAULT: %s", str);
 
 	/* -------------------> testing getrlimit */
-	if (getrlimit (RLIMIT_NPROC, &curr_limits) == -1)
+	if (getrlimit (RLIMIT_NPROC, &limits) == -1)
 	{
 		perror ("The call to getrlimit() failed.");
 		return EXIT_FAILURE;
 	}
 	else
 	{
-		printf ("The current maximum number of processes is %d.\n", (int) curr_limits.rlim_cur);
-		printf("The hard limit on the number of processes is %d.\n", (int) curr_limits.rlim_max);
+		printf ("The current maximum number of processes is %d.\n", (int) limits.rlim_cur);
+		printf("The hard limit on the number of processes is %d.\n", (int) limits.rlim_max);
 	}
 	return (0);
 }
