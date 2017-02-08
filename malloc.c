@@ -1,19 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mmap_munmap.c                                      :+:      :+:    :+:   */
+/*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/03 15:00:11 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/08 13:25:54 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <sys/mman.h>
-#include <stdlib.h>
-#include <unistd.h>
+#include "malloc.h"
 
 int		main(int ac, char *av[])
 {
@@ -21,7 +18,10 @@ int		main(int ac, char *av[])
 	int nb;
 	char c;
 	char *str;
+	struct rlimit curr_limits;
 
+	if (ac == 1)
+		return (0);
 	i = 0;
 	c = av[1][0];
 	nb = atoi(av[2]);
@@ -35,9 +35,21 @@ int		main(int ac, char *av[])
 	str[i] = '\0';
 	printf("%s", str);
 	if (munmap(str, nb + 1) == 0)
-		printf("\n=> SUCCESS munmap, le programme doit SEGFAULT apres\n");
+		printf("\n=> SUCCESS munmap\n");
 	else
 		printf("\n=> ERROR munmap\n");
-	printf("Declenche normalement un SEGFAULT: %s", str);
+	//printf("Declenche normalement un SEGFAULT: %s", str);
+
+	/* -------------------> testing getrlimit */
+	if (getrlimit (RLIMIT_NPROC, &curr_limits) == -1)
+	{
+		perror ("The call to getrlimit() failed.");
+		return EXIT_FAILURE;
+	}
+	else
+	{
+		printf ("The current maximum number of processes is %d.\n", (int) curr_limits.rlim_cur);
+		printf("The hard limit on the number of processes is %d.\n", (int) curr_limits.rlim_max);
+	}
 	return (0);
 }
