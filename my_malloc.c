@@ -6,18 +6,48 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/09 14:56:02 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/09 17:14:06 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void	*tiny(t_page **tiny, size_t size)
+/*
+** mapped in multiples of the page size
+*/
+size_t	setsize(size_t z)
 {
-	void	*block;
+	size_t	i;
+
+	i = 0;
+	while ((getpagesize() % z) != 0)
+	{
+		i++;
+		z = z + i;
+	}
+	return (z);
+}
+
+/*
+** tinies pages
+*/
+void	*tinies(t_page **t, size_t size)
+{
+	t_tinies	*tmp;
+
+	if ((tmp = mmap(0, setsize(sizeof(t_page)), PROT_READ | PROT_WRITE,
+				MAP_ANON | MAP_PRIVATE, -1, 0)) == -1)
+	{
+		write(2, "ERROR => mmap\n", 14);
+		return (NULL);
+	}
 	if (*tiny == NULL)
 	{
-		block = mmap(0, (128*100), PROT_READ | PROT_WRITE, MAP_ANON | MAP_PRIVATE, -1, 0);
+		/*create function pour le block */
+		*tiny = tmp;
+		tmp->count = 1;
+		tmp->next = null;
+		tmp->previous = null;
 	}
 	else
 	{
@@ -26,38 +56,45 @@ void	*tiny(t_page **tiny, size_t size)
 	return ();
 }
 
-void	*small(t_page **small, size_t size)
-{
-	if (*small == NULL)
-
-	else
-	return ();
-}
-
-void	*large(t_page **large. size_t size)
-{
-	if (*large == NULL)
-
-	else
-	return ();
-}
+// void	*smalls(t_page **s, size_t size)
+// {
+// 	if (*small == NULL)
+// 	{
+// 	}
+// 	else
+// 	{
+// 	}
+// 	return ();
+// }
+//
+// void	*larges(t_page **l. size_t size)
+// {
+// 	if (*large == NULL)
+// 	{
+// 	}
+// 	else
+// 	{
+//
+// 	}
+// 	return ();
+// }
 
 //changer le nom de la fonction
 void	*my_malloc(size_t size)
 {
-	t_page *tiny;
-	t_page *small;
-	t_page *large;
+	t_page *t;
+	t_page *s;
+	t_page *l;
 
-	tiny = NULL;
-	small = NULL;
-	large = NULL;
+	t = NULL;
+	s = NULL;
+	l = NULL;
 	if (size <= 0)
 		return (NULL);
 	else if  (size < 100)
-		return (tiny(&tiny, size));
+		return (tinies(&t, size));
 	else if (size < 4000)
-		return (small(&small, size));
+		return (smalls(&s, size));
 	else
-	 	return (large(&large, size));
+	 	return (larges(&l, size));
 }

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/09 14:23:36 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/09 16:47:39 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@
 
 typedef struct		s_page
 {
-	int				flag;
-	int				req_size;
-	struct s_page	*next;
-	struct s_page	*previous;
+	int					count;
+	void				mem[12800];
+	void				ptr[100];
+	struct s_tinies		*next;
+	struct s_tinies		*previous;
 }					t_page;
 
 /*_______ MY MALLOC __________________________________________________________*/
