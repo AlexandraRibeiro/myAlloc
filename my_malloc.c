@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/10 16:07:09 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/10 17:29:14 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,60 @@
 /*
 ** mapped in multiples of the page size
 */
-size_t	setsize(size_t z)
+static size_t	setsize(size_t z)
 {
 	size_t	i;
+	int		s;
+	int		ztmp;
 
+
+	s = getpagesize();
+	ztmp = (int)z;
+	printf(" debut ztmp = %i\n", ztmp);
 	i = 0;
-	while ((getpagesize() % z) != 0)
+	while ((ztmp % s) != 0)
 	{
+		printf("boucle ztmp = %i\n", ztmp);
 		i++;
-		z = z + i;
+		ztmp = ztmp + i;
+		printf("apres boucle ztmp = %i\n", ztmp);
 	}
-	return (z);
+	printf("ztmp = %i\n", ztmp);
+	return ((size_t)ztmp);
 }
 
 /*
 ** tinies pages
 */
-void	*tinies(t_page **t, size_t size)
+static void	*tinies(t_page **t, size_t size)
 {
-	t_tinies	*tmp;
-	t_tinies	*prev;
+	t_page	*tmp;
+	t_page	*prev;
 
-	if ((tmp = mmap(0, setsize(sizeof(t_page)),
-				MMAP_PROT, MMAP_FLAGS, -1, 0)) == -1)
+
+	tmp = mmap(0, setsize(sizeof(t_page)), MMAP_PROT, MMAP_FLAGS, -1, 0);
+	if (*t == NULL)
 	{
-		write(2, "ERROR => mmap\n", 14);
-		return (NULL);
-	}
-	if (*tiny == NULL)
-	{
-		/*create function pour le block */
-		*tiny = tmp;
+		/*create function pour allouer un block */
 		tmp->count = 1;
 		tmp->next = NULL;
 		tmp->previous = NULL;
+		*t = tmp;
+		write(1, "ici", 3);
+		printf("tinies = %p", *t);
+		return (*t);
+	}
 	else
 	{
-		prev = *tiny;
+		prev = *t;
 		while (prev->next != NULL)
 			prev = prev->next;
-		prev->next = *tmp;
+		prev->next = tmp;
 		tmp->count = prev->count + 1;
 		tmp->next = NULL;
 		tmp->previous = prev;
+		return (tmp);
 	}
-	return ();
 }
 
 // void	*smalls(t_page **s, size_t size)
@@ -99,8 +108,10 @@ void	*my_malloc(size_t size)
 		return (NULL);
 	else if  (size < 100)
 		return (tinies(&t, size));
-	else if (size < 4000)
-		return (smalls(&s, size));
+	// else if (size < 4000)
+	// 	return (smalls(&s, size));
+	// else
+	//  	return (larges(&l, size));
 	else
-	 	return (larges(&l, size));
+		return (NULL);
 }
