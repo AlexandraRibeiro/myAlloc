@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/09 17:14:06 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/10 16:07:09 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,10 @@ size_t	setsize(size_t z)
 void	*tinies(t_page **t, size_t size)
 {
 	t_tinies	*tmp;
+	t_tinies	*prev;
 
-	if ((tmp = mmap(0, setsize(sizeof(t_page)), PROT_READ | PROT_WRITE,
-				MAP_ANON | MAP_PRIVATE, -1, 0)) == -1)
+	if ((tmp = mmap(0, setsize(sizeof(t_page)),
+				MMAP_PROT, MMAP_FLAGS, -1, 0)) == -1)
 	{
 		write(2, "ERROR => mmap\n", 14);
 		return (NULL);
@@ -46,12 +47,17 @@ void	*tinies(t_page **t, size_t size)
 		/*create function pour le block */
 		*tiny = tmp;
 		tmp->count = 1;
-		tmp->next = null;
-		tmp->previous = null;
-	}
+		tmp->next = NULL;
+		tmp->previous = NULL;
 	else
 	{
-
+		prev = *tiny;
+		while (prev->next != NULL)
+			prev = prev->next;
+		prev->next = *tmp;
+		tmp->count = prev->count + 1;
+		tmp->next = NULL;
+		tmp->previous = prev;
 	}
 	return ();
 }

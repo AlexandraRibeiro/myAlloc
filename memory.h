@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/09 16:47:39 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/10 15:57:16 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,12 @@
 
 # include <unistd.h>
 # include <stdio.h>
-//# include <stdlib.h>
 # include <sys/mman.h>
 # include <sys/resource.h>
+//# include <stdlib.h>
+
+# define MMAP_PROT		PROT_READ | PROT_WRITE
+# define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
 
 typedef struct		s_page
 {
@@ -27,6 +30,7 @@ typedef struct		s_page
 	struct s_tinies		*next;
 	struct s_tinies		*previous;
 }					t_page;
+
 
 /*_______ MY MALLOC __________________________________________________________*/
 // void		*malloc(size_t size);
