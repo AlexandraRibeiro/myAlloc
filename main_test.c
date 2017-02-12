@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/10 17:30:27 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/12 17:38:48 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int		main(int ac, char *av[])
 		printf("The hard limit on the number of processes is %d.\n", (int) limits.rlim_max);
 	}
 
-	str = (char *)my_malloc(sizeof(3));
+	str = (char *)my_malloc(sizeof(char) * 3);
 	//printf("sizeof str = %z\n", sizeof(str));
 	str[0] = 'a';
 	str[1] = 'b';
