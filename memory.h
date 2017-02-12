@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/12 17:36:31 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/12 19:08:06 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
-# define INDEX			0
-# define TINY			1
-# define SMALL			2
-# define LARGE			3
+# define TINY			128 // nb pour decaler le ptr dans l'espace memoire
+# define SMALL			256
 
+//comme une pile
 typedef struct		s_block
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
@@ -38,14 +37,15 @@ typedef struct		s_page
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
 	int					count_alloc;
-	void				*b; // debut de la structure pour les blocks
-	void				*data; //debut de l'espace pour les datas
+	void				*last_block; // debut de la structure pour les blocks (pile)
 	struct s_page		*next;
 	struct s_page		*previous;
 }					t_page;
 
 struct				s_map
 {
+	int					flags;
+	size_t				size;
 	t_page				*tiny;
 	t_page				*small;
 	t_page				*large;
