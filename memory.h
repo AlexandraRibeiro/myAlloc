@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/13 15:13:11 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/13 18:08:28 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
 # define TINY			128 // taille block
-# define SMALL			256
+# define SMALL			576
 
 //comme une pile
 typedef struct		s_block
