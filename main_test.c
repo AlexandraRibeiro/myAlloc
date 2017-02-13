@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/13 15:12:38 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/13 15:37:50 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,28 @@ int		main(int ac, char *av[])
 	// 	printf("The hard limit on the number of processes is %d.\n", (int) limits.rlim_max);
 	// }
 
-	c = 'A';
 	i = 0;
 	str = (char *)my_malloc(sizeof(char) * 100);
-	// str2 = (char *)my_malloc(sizeof(char) * 100);
+	str2 = (char *)my_malloc(sizeof(char) * 100);
 write(1, "\n-> retour main\n", 16);
 printf("(debug main) ADDR 1er ptr str = %p\n", str);
-// str = str + 1;
-// printf("(debug main) ADDR 2eme ptr str = %p\n", str);
+printf("(debug main) ADDR 2eme ptr str2 = %p\n", str2);
 	while (i < 13143)
 	{
-		str[i] = c;
+		str[i] = 'A';
 		i++;
 	}
 	str[i] = '\0';
 	printf("%s" , str);
+
+	i = 0;
+	while (i < (13143 - TINY))
+	{
+		str2[i] = 'B';
+		i++;
+	}
+	str2[i] = '\0';
+	printf("%s" , str2);
 //
 // 	str2[0] = '\0';
 // 	str2[1] = 'd';
