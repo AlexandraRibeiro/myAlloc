@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/12 20:00:48 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/13 15:15:18 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static size_t get_size(int cas)
 
 	if (cas == TINY)
 	{
-		i = ((sizeof(t_page) + (sizeof(t_block) * 100) + (128 * 100)) / 4096) + 1;
-printf("(debug) VALEUR multiple 4096 : i = %zu, i*4096 = %zu\n", i, i*4096);
+		i = ((sizeof(t_page) + (sizeof(t_block) * 100) + (TINY * 100)) / getpagesize()) + 1;
+printf("(debug) VALEUR multiple 4096 : i = %zu, i*4096 = %zu\n", i, i*getpagesize());
 		return (i * 4096);
 	}
 	else
@@ -52,18 +52,18 @@ static void	*create_block(int cas, t_page **page)
 static void	*init_1_block(t_page **page)
 {
 	t_block *b;
-	t_page *p;
+	void	*tmp;
+	t_page 	*p;
 
-	p = *page;
-printf("(debug) ADDR page cree par mmap = %p\n", p);
-	b = p->last_block;
-	b->secu_verif = (size_t)(b->secu_verif);
-	b->ptr = p + 0XCA8;
+printf("\n(debug) POSITION position fonction init_1_block\n");
 printf("(debug) SIZE de t_block = %lu\n",sizeof(t_block));
-printf("(debug) decalage pointeur pour data = %lu\n", sizeof(t_page) + (sizeof(t_block) * 100));
+	p = *page;
+	b = p->last_block;
+	tmp = b; // copie la place du pointeur
+	b->secu_verif = (size_t)(b->secu_verif);
+	b->ptr = tmp + (sizeof(t_block)*100);
 	b->req_size = glob.size;
 	b->next = NULL;
-printf("(debug) ADDR espace pour 1ere alloc = %p\n", b->ptr);
 	return (b->ptr);
 }
 
@@ -73,52 +73,61 @@ printf("(debug) ADDR espace pour 1ere alloc = %p\n", b->ptr);
 static void	*tinies()
 {
 	t_page	*p;
-	t_page	*tmp;
+	void	*tmp;
 
 	if (glob.tiny == NULL)
 	{
 printf("(debug) POSITION position programme -> tiny = NULL\n");
 		//getrlimit
-		p = mmap(0, get_size(TINY), MMAP_PROT, MMAP_FLAGS, -1, 0);
-printf("(debug) ADDR page cree par mmap = %p\n", p);
-		tmp = p;
+		tmp = mmap(0, get_size(TINY), MMAP_PROT, MMAP_FLAGS, -1, 0);
+
+printf("(debug) ADDR page cree par mmap = %p\n", tmp);
+/* SIZE t_PAGE */
+printf("\n(debug) SIZE de size_t = %lu\n",sizeof(size_t));
+printf("(debug) SIZE de int = %lu\n",sizeof(int));
+printf("(debug) SIZE de void * = %lu\n",sizeof(void *));
+printf("(debug) SIZE de t_page = %lu\n",sizeof(t_page));
+
+		p = tmp;
 		p->secu_verif = (size_t)(p->secu_verif);
 		p->count_alloc = 100; //total des places libres
 		p->last_block =  tmp + sizeof(t_page);
-printf("(debug) SIZE de t_page = %lu\n",sizeof(t_page));
-printf("(debug) ADDR last_block = %p\n", p->last_block);
 		p->next = NULL;
 		p->previous = NULL;
 		glob.tiny = p;
-printf("(debug) ADDR ptr global.tiny = %p\n", glob.tiny);
 		return(init_1_block(&p));
 	}
 	else
 	{
-printf("(debug) POSITION programme -> tiny != NULL\n");
-		tmp = glob.tiny;
-		while (1)
-		{
-			if (tmp->count_alloc != 0)
-			{
-				tmp->count_alloc--;
-printf("(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
-				return (create_block(TINY, &tmp));
-			}
-			else if (tmp->secu_verif != (size_t)(tmp->secu_verif))
-			{
-				/*nettoyer la memoire*/
-				ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-				return (NULL);
-			}
-			// else if (tmp->next == NULL)
-			// 	return (create_page(TINY, &tmp));
-			else if (tmp->next == NULL)
-					return (NULL);
-			else
-				tmp = tmp->next;
-		}
+printf("(debug) POSITION position programme -> tiny != NULL\n");
+		return (NULL);
 	}
+// 	else
+// 	{
+// printf("(debug) POSITION programme -> tiny != NULL\n");
+// 		tmp = glob.tiny;
+// 		while (1)
+// 		{
+// 			if (tmp->count_alloc != 0)
+// 			{
+// 				tmp->count_alloc--;
+// printf("(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
+// 				return (create_block(TINY, &tmp));
+// 			}
+// 			else if (tmp->secu_verif != (size_t)(tmp->secu_verif))
+// 			{
+// 				/*nettoyer la memoire*/
+// 				ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+// 				return (NULL);
+// 			}
+// 			// else if (tmp->next == NULL)
+// 			// 	return (create_page(TINY, &tmp));
+// 			else if (tmp->next == NULL)
+// 					return (NULL);
+// 			else
+// 				tmp = tmp->next;
+// 		}
+	// }
 }
 
 //changer le nom de la fonction

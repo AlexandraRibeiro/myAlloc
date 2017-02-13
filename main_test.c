@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/12 19:52:21 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/13 15:12:38 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,32 @@
 int		main(int ac, char *av[])
 {
 	int i;
-	int nb;
+	// int nb;
+	// size_t nb2;
 	char c;
 	char *str;
 	char *str2;
-	struct rlimit limits;
+	// struct rlimit limits;
 
-	// if (ac < 3)
-	// 	return (0);
-	// i = 0;
-	// c = av[1][0];
-	// nb = atoi(av[2]);
-	// str = (char *)mmap(0, nb + 1, MMAP_PROT, MMAP_FLAGS, -1, 0);
-	// printf("getpagesize = %i\n", getpagesize());
-	// while (i < nb)
-	// {
-	// 	str[i] = c;
-	// 	i++;
-	// }
-	// str[i] = '\0';
-	// printf("%s", str);
+// 	if (ac < 3)
+// 		return (0);
+// 	i = 0;
+// 	c = av[1][0];
+// 	nb = atoi(av[2]);
+// 	nb2 = (size_t)nb;
+// printf ("nb2 = %d", nb);
+// printf ("sizeof char = %lu\n", sizeof(char));
+// 	str = mmap(0, 8200, MMAP_PROT, MMAP_FLAGS, -1, 0);
+// 	// printf("getpagesize = %i\n", getpagesize());
+// 	str2 = str;
+// 	while (i < nb)
+// 	{
+// 		*str = c;
+// 		str++;
+// 		i++;
+// 	}
+// 	*str = '\0';
+// 	printf("%s", str2);
 	// if (munmap(str, nb + 1) == 0)
 	// 	printf("\n=> SUCCESS munmap\n");
 	// else
@@ -53,26 +59,25 @@ int		main(int ac, char *av[])
 	// 	printf("The hard limit on the number of processes is %d.\n", (int) limits.rlim_max);
 	// }
 
+	c = 'A';
+	i = 0;
 	str = (char *)my_malloc(sizeof(char) * 100);
 	// str2 = (char *)my_malloc(sizeof(char) * 100);
-write(1, "ici", 3);
-
-	str[0] = 'a';
-	str[1] = 'b';
-	str[2] = 'a';
-	str[3] = 'b';
-	str[4] = 'a';
-	str[5] = 'b';
-	str[6] = 'a';
-	str[7] = 'b';
-	str[8] = 'a';
-	str[9] = 'b';
-	str[10] = '\0';
+write(1, "\n-> retour main\n", 16);
+printf("(debug main) ADDR 1er ptr str = %p\n", str);
+// str = str + 1;
+// printf("(debug main) ADDR 2eme ptr str = %p\n", str);
+	while (i < 13143)
+	{
+		str[i] = c;
+		i++;
+	}
+	str[i] = '\0';
 	printf("%s" , str);
-
-	// str2[0] = '\0';
-	// str2[1] = 'd';
-	// str2[2] = '\0';
-	// printf("%s" , str2);
+//
+// 	str2[0] = '\0';
+// 	str2[1] = 'd';
+// 	str2[2] = '\0';
+// 	printf("%s" , str2);
 	return (0);
 }
