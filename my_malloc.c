@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/13 18:09:47 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/13 18:18:15 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@ static size_t get_size(int cas)
 	page_size = getpagesize();
 
 	req = sizeof(t_page) + (sizeof(t_block) * 100) + (cas * 100);
+printf("\nsize request = %zu", req);
 	if (req % page_size != 0)
 	{
 		i = (req / page_size) + 1;
-printf("\n(debug) VALEUR multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
+printf("\n(debug) VALEUR +1 : multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
 	}
 	else
 	{
 		i = req / page_size;
-printf("\n(debug) VALEUR multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
+printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
 	}
 	return (i * 4096);
 }
