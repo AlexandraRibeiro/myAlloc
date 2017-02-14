@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/14 18:18:22 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:37:16 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,17 @@
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
-# define TINY			128 // taille block
-# define SMALL			576
 
-//comme une pile
+# define TINY			128 // taille block
+# define TI_REALLOC		10/100
+# define TI_MAX			TINY - (TINY * TI_REALLOC)
+
+# define SMALL			512
+# define SM_REALLOC		5/100
+# define SM_MAX			SMALL - (SMALL * SM_REALLOC)
+
+# define LG_REALLOC		1/100
+
 typedef struct		s_block
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
@@ -33,6 +40,9 @@ typedef struct		s_block
 	struct s_block		*next;
 }					t_block;
 
+/*
+** void *last_block : stock ptr of the last block allocated not the first (as a pile)
+*/
 typedef struct		s_header
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
@@ -42,10 +52,16 @@ typedef struct		s_header
 	struct s_header		*previous;
 }					t_header;
 
+/*
+** t_header : stock ptr of the last page created not the first one (as a pile)
+*/
 struct				s_map
 {
 	int					flags;
-	size_t				size;
+	size_t				requested_size;
+	size_t				tiny_realloc;
+	size_t				small_realloc;
+	size_t				large_realloc;
 	t_header			*tiny;
 	t_header			*small;
 	t_header			*large;

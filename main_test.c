@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/13 18:08:45 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:14:59 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,14 +147,15 @@ printf("(debug main) ADDR 3eme ptr tiny3 = %p, decalage avec tiny2 = %ld\n", tin
 	**								TEST SMALL
 	*******************************************************************************/
 	i = 0;
-	small = (char *)my_malloc(sizeof(char) * 101);
+printf("TI_MAX = %d, SM MAX = %d\n", TI_MAX, SM_MAX);
+	small = (char *)my_malloc(sizeof(char) * (TI_MAX + 1));
 	small2 = (char *)my_malloc(sizeof(char) * 200);
-	small3 = (char *)my_malloc(sizeof(char) * 500);
+	small3 = (char *)my_malloc(sizeof(char) * SM_MAX); //SM_MAX
 write(1, "\n-> retour main\n", 16);
 printf("(debug main) ADDR 1er ptr small = %p\n", small);
 printf("(debug main) ADDR 2eme ptr small2 = %p, decalage avec small = %ld\n", small2, small2 - small);
 printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", small3, small3 - small2);
-	while (i < 254)
+	while (i < 99)
 	{
 		small[i] = 'A';
 		i++;
@@ -164,7 +165,7 @@ printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", s
 
 
 	i = 0;
-	while (i < 254)
+	while (i < 198)
 	{
 		small2[i] = 'B';
 		i++;
@@ -174,7 +175,7 @@ printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", s
 
 
 	i = 0;
-	while (i < 254)
+	while (i < 484)
 	{
 		small3[i] = 'C';
 		i++;
@@ -192,7 +193,7 @@ printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", s
 	printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", small3, small3 - small2);
 
 	i = 0;
-	while (i < 254)
+	while (i < 99)
 	{
 		small3[i] = 'D';
 		i++;
@@ -201,7 +202,7 @@ printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", s
 	small3[++i] = '\0';
 
 	i = 0;
-	while (i < 254)
+	while (i < 198)
 	{
 		small2[i] = 'E';
 		i++;
@@ -210,7 +211,7 @@ printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", s
 	small2[++i] = '\0';
 
 	i = 0;
-	while (i < 254)
+	while (i < 483)
 	{
 		small[i] = 'F';
 		i++;

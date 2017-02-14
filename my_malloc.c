@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/14 18:30:26 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/14 21:58:39 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n
 
 	// current->secu_verif = (size_t)&(current->secu_verif);
 	current->ptr = before->ptr + cas;
-	current->req_size = glob.size;
+	current->req_size = glob.requested_size;
 	current->next = before;
 
 	h->last_block = current; //rempli comme une pile je change le pointeur du debut
@@ -74,7 +74,7 @@ printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void
 
 	// b->secu_verif = (size_t)&(b->secu_verif);
 	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
-	b->req_size = glob.size;
+	b->req_size = glob.requested_size;
 	b->next = NULL;
 	return (b->ptr);
 }
@@ -82,40 +82,48 @@ printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void
 /*
 ** Parsing : searching an empty place || create a new page
 */
-static void		*search_place(t_header *h, int cas)
+static void		*search_place(t_header **h, int cas)
 {
-	t_header	*create_header;
+	t_header *tmp;
 
-	create_header = NULL;
+	tmp = *h;
 printf("\n(debug) POSITION programme -> search_place\n");
 	while (1)
 	{
-		if (h->count_alloc != 0)
+		if (tmp->count_alloc != 0)
 		{
-			h->count_alloc--;
-printf("\n(debug) VALEUR count_alloc = %d\n", h->count_alloc);
-			return (create_block(cas, &h));
+			tmp->count_alloc--;
+printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
+			return (create_block(cas, h));
 		}
+		else if (tmp->next == NULL)
+		{
+printf("h->next = NULL\n");
+			return (page_init(h, cas));
+		}
+		else
+			tmp = tmp->next;
+
 		// else if (h->secu_verif != (size_t)&(h->secu_verif))
 		// {
 		// 	/*nettoyer la memoire*/
 		// 	ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 		// 	return (NULL);
 		// }
-		else if (h->next == NULL)
-			return (page_init(&h, cas));
-		else
-			h = h->next;
 	}
 }
 
 void		*page_init(t_header **addr, int cas)
 {
 	t_header	*h;
+	t_header	*prev;
 
 	//getrlimit
 	h = (t_header *)mmap(0, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
 printf("(debug) ****************************** APPEL SYS MMAP\n");
+printf("(debug) ADDR page MMAP = %p\n", h);
+
+	prev = *addr;
 
 	// h->secu_verif = (size_t)(h->secu_verif);
 	h->count_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
@@ -130,8 +138,9 @@ printf("(debug) h->count_alloc = %d", h->count_alloc);
 	}
 	else
 	{
+		prev->next = h;
+		h->previous = prev;
 		h->next = NULL;
-		h->previous = *addr;
 printf ("\n(debug) ADDR previous page = %p", h->previous);
 printf ("\n(debug) ADDR current page = %p\n", h);
 	}
@@ -142,25 +151,34 @@ printf ("\n(debug) ADDR current page = %p\n", h);
 	return (init_1_block(&h));
 }
 
+static void *parse_malloc_size()
+{
+	if  (glob.requested_size <= TI_MAX && glob.tiny == NULL)
+		return (page_init(&(glob.tiny), TINY));
+	else if  (glob.requested_size <= TI_MAX && glob.tiny != NULL)
+		return (search_place(&(glob.tiny), TINY));
+	else if  (glob.requested_size <= SM_MAX && glob.small == NULL)
+		return (page_init(&(glob.small), SMALL));
+	else if  (glob.requested_size <= SM_MAX && glob.small != NULL)
+		return (search_place(&(glob.small), SMALL));
+	else if (glob.requested_size > SM_MAX)
+	{
+		write(1, "\n\npas encore codé, return NULL\n", 31);
+		return (NULL); //a coder
+	}
+	else
+		return (NULL);
+}
 
 //changer le nom de la fonction
 void	*my_malloc(size_t size)
 {
 	//mutex
-	glob.size = size;
+	glob.requested_size = size;
 	if (size <= 0)
 	{
 		ft_putstr_fd("ERROR MALLOC : size <= 0", 2);
 		return (NULL);
 	}
-	else if  (size < 101 && glob.tiny == NULL)
-		return (page_init(&(glob.tiny), TINY));
-	else if  (size < 101 && glob.tiny != NULL)
-		return (search_place(glob.tiny, TINY));
-	else if  (size < 501 && glob.small == NULL)
-		return (page_init(&(glob.small), SMALL));
-	else if  (size < 501 && glob.small != NULL)
-		return (search_place(glob.small, SMALL));
-	else
-		return (NULL);
+	return (parse_malloc_size());
 }
