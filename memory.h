@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/13 18:21:00 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/14 12:39:27 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,22 @@ typedef struct		s_block
 	struct s_block		*next;
 }					t_block;
 
-typedef struct		s_page
+typedef struct		s_header
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
 	int					count_alloc;
 	void				*last_block; // debut de la structure pour les blocks (pile)
-	struct s_page		*next;
-	struct s_page		*previous;
-}					t_page;
+	struct s_header		*next;
+	struct s_header		*previous;
+}					t_header;
 
 struct				s_map
 {
 	int					flags;
 	size_t				size;
-	t_page				*tiny;
-	t_page				*small;
-	t_page				*large;
+	t_header			*tiny;
+	t_header			*small;
+	t_header			*large;
 };
 
 extern struct s_map glob;

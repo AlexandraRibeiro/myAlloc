@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/13 18:18:15 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/14 12:38:49 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t get_size(int cas)
 
 	page_size = getpagesize();
 
-	req = sizeof(t_page) + (sizeof(t_block) * 100) + (cas * 100);
+	req = sizeof(t_header) + (sizeof(t_block) * 100) + (cas * 100);
 printf("\nsize request = %zu", req);
 	if (req % page_size != 0)
 	{
@@ -41,14 +41,14 @@ printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i *
 }
 
 
-static void	*create_block(int cas, t_page **page)
+static void	*create_block(int cas, t_header **page)
 {
-	t_page	*p;
+	t_header	*h;
 	t_block *before;
 	t_block *current;
 
-	p = *page;
-	before = p->last_block;
+	h = *page;
+	before = h->last_block;
 	current = (void *)before + sizeof(t_block);
 printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n", current, (void *)current - (void *)before);
 
@@ -57,79 +57,79 @@ printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n
 	current->req_size = glob.size;
 	current->next = before;
 
-	p->last_block = current; //rempli comme une pile je change le pointeur du debut
+	h->last_block = current; //rempli comme une pile je change le pointeur du debut
 	return (current->ptr);
 }
 
-static void	*init_1_block(t_page **page)
+static void	*init_1_block(t_header **page)
 {
-	t_block *b;
-	t_page 	*p;
+	t_block		*b;
+	t_header 	*h;
 
 printf("\n(debug) POSITION position fonction init_1_block\n");
 printf("(debug) SIZE de t_block = %lu\n",sizeof(t_block));
-	p = *page;
-	b = p->last_block;
-printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)p);
+	h = *page;
+	b = h->last_block;
+printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
 
 
 	b->secu_verif = (size_t)(b->secu_verif);
-	b->ptr = (void *)b + (sizeof(t_block)*100);
+	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
 	b->req_size = glob.size;
 	b->next = NULL;
 	return (b->ptr);
 }
 
-static void		*search_place(t_page *p, int cas)
+static void		*search_place(t_header *h, int cas)
 {
 printf("\n(debug) POSITION programme -> search_place\n");
 	while (1)
 	{
-		if (p->count_alloc != 0)
+		if (h->count_alloc != 0)
 		{
-			p->count_alloc--;
-printf("(debug) VALEUR count_alloc = %d\n", p->count_alloc);
-			return (create_block(cas, &p));
+			h->count_alloc--;
+printf("(debug) VALEUR count_alloc = %d\n", h->count_alloc);
+			return (create_block(cas, &h));
 		}
-		else if (p->secu_verif != (size_t)(p->secu_verif))
+		else if (h->secu_verif != (size_t)(h->secu_verif))
 		{
 			/*nettoyer la memoire*/
 			ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 			return (NULL);
 		}
-		// else if (tmp->next == NULL)
-		// 	return (create_page(TINY, &tmp));
-		else if (p->next == NULL)
+		// else if (h->next == NULL)
+		// 	return (create_page(TINY, &h));
+		else if (h->next == NULL)
 			return (NULL);
 		else
-			p = p->next;
+			h = h->next;
 	}
 }
 
-static void		*page_init(t_page **addr, int cas)
+static void		*page_init(t_header **addr, int cas)
 {
-	t_page	*p;
+	t_header	*h;
 
 	//getrlimit
-	p = (t_page *)mmap(0, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
+	h = (t_header *)mmap(0, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
 printf("(debug) ****************************** APPEL SYS MMAP\n");
 
-/* SIZE t_PAGE */
+/* SIZE t_header */
 printf("\n(debug) SIZE de size_t = %lu\n",sizeof(size_t));
 printf("(debug) SIZE de int = %lu\n",sizeof(int));
 printf("(debug) SIZE de void * = %lu\n",sizeof(void *));
-printf("(debug) SIZE de t_page = %lu\n",sizeof(t_page));
+printf("(debug) SIZE de t_header = %lu\n",sizeof(t_header));
 
-	p->secu_verif = (size_t)(p->secu_verif);
-	p->count_alloc = (get_size(cas) - sizeof(t_page)) / (sizeof(t_block) + cas); //total des places libres
-printf ("(debug) VALEUR count_alloc init = %d", p->count_alloc);
+	h->secu_verif = (size_t)(h->secu_verif);
+	h->count_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
+printf ("(debug) VALEUR count_alloc init = %d", h->count_alloc);
 
-	p->last_block =  (void *)p + sizeof(t_page);
-	p->next = NULL;
-	p->previous = NULL;
+	h->last_block =  (void *)h + sizeof(t_header);
+	h->next = NULL;
+	h->previous = NULL;
 
-	*addr = p;
-	return(init_1_block(&p));
+	*addr = h;
+	return(init_1_block(&h));
 }
 
 
