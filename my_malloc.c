@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/15 15:14:59 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 18:04:29 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 struct s_map glob;
 
+
+
+/******************************************************************************/
+/******************************************************************************/
 /*
 ** mapped in multiples of the page size
 */
@@ -25,21 +29,28 @@ static size_t	get_size(int cas)
 
 	page_size = getpagesize();
 
-	req = sizeof(t_header) + (sizeof(t_block) * 100) + (cas * 100);
-printf("\nsize requested = %zu", req);
+	if (cas == TINY || cas == SMALL)
+		req = sizeof(t_header) + (sizeof(t_block) * 100) + (cas * 100);
+	else
+		req = sizeof(t_header_lg) + cas + (cas * LG_REALLOC);
+
+	printf("\nsize requested = %zu", req);
 	if (req % page_size != 0)
 	{
 		i = (req / page_size) + 1;
-printf("\n(debug) VALEUR +1 : multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
+	printf("\n(debug) VALEUR +1 : multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
 	}
 	else
 	{
 		i = req / page_size;
-printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
+	printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
 	}
-	return (i * 4096);
+	return (i * page_size);
 }
 
+
+/******************************************************************************/
+/******************************************************************************/
 static void		*create_block(int cas, t_header **page)
 {
 	t_header	*h;
@@ -49,7 +60,7 @@ static void		*create_block(int cas, t_header **page)
 	h = *page;
 	before = h->last_block;
 	current = (void *)before + sizeof(t_block);
-printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n", current, (void *)current - (void *)before);
+	printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n", current, (void *)current - (void *)before);
 
 	// current->secu_verif = (size_t)&(current->secu_verif);
 	current->ptr = before->ptr + cas;
@@ -57,19 +68,24 @@ printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n
 	current->next = before;
 
 	h->last_block = current; //rempli comme une pile je change le pointeur du debut
+
 	return (current->ptr);
 }
 
+
+
+
+/******************************************************************************/
+/******************************************************************************/
 static void	*init_1_block(t_header **page)
 {
+	printf("\n(debug) POSITION programme -> init_1_block\n\n");
 	t_block		*b;
 	t_header 	*h;
 
-printf("\n(debug) POSITION position fonction init_1_block\n");
-printf("(debug) SIZE de t_block = %lu\n",sizeof(t_block));
 	h = *page;
 	b = h->last_block;
-printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
+	printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
 
 
 	// b->secu_verif = (size_t)&(b->secu_verif);
@@ -79,26 +95,31 @@ printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void
 	return (b->ptr);
 }
 
+
+
+
+/******************************************************************************/
+/******************************************************************************/
 /*
 ** Parsing : searching an empty place || create a new page
 */
 static void		*search_place(t_header **h, int cas)
 {
+	printf("\n(debug) POSITION programme -> search_place\n");
 	t_header *tmp;
 
 	tmp = *h;
-printf("\n(debug) POSITION programme -> search_place\n");
 	while (1)
 	{
 		if (tmp->count_alloc > 1)
 		{
 			tmp->count_alloc--;
-printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
+	printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
 			return (create_block(cas, h));
 		}
 		else if (tmp->next == NULL)
 		{
-printf("h->next = NULL\n");
+	printf("h->next = NULL\n");
 			return (page_init(h, cas));
 		}
 		else
@@ -113,15 +134,22 @@ printf("h->next = NULL\n");
 	}
 }
 
+
+
+
+/******************************************************************************/
+/******************************************************************************/
 void		*page_init(t_header **addr, int cas)
 {
 	t_header	*h;
 	t_header	*prev;
 
 	//getrlimit
+	printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
 	h = (t_header *)mmap(0, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
-printf("(debug) ****************************** APPEL SYS MMAP\n");
-printf("(debug) ADDR page MMAP = %p\n", h);
+	printf("(debug) ADDR page MMAP = %p\n", h);
+	printf("\n---------------------------------------------------------\033[0m\n\n");
+
 
 	prev = *addr;
 
@@ -129,7 +157,7 @@ printf("(debug) ADDR page MMAP = %p\n", h);
 	h->count_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
 	h->last_block =  (void *)h + sizeof(t_header);
 
-printf("(debug) h->count_alloc = %d", h->count_alloc);
+	printf("(debug) h->count_alloc = %d", h->count_alloc);
 
 	if (*addr == NULL)
 	{
@@ -141,16 +169,68 @@ printf("(debug) h->count_alloc = %d", h->count_alloc);
 		prev->next = h;
 		h->previous = prev;
 		h->next = NULL;
-printf("\n(debug) ADDR previous page = %p", h->previous);
-printf("\n(debug) ADDR current page = %p\n", h);
+	printf("\n(debug) ADDR previous page = %p", h->previous);
+	printf("\n(debug) ADDR current page = %p\n", h);
 	}
 	if (cas == TINY)
 		glob.tiny = h;
 	else if (cas == SMALL)
 		glob.small = h;
+
 	return (init_1_block(&h));
 }
 
+
+
+
+/******************************************************************************/
+/******************************************************************************/
+static void		*page_lg_init(t_header_lg **addr)
+{
+	t_header_lg	*h;
+	t_header_lg	*prev;
+	size_t		setsize;
+
+	setsize = get_size((int)glob.requested_size);
+
+	//getrlimit
+	printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
+	h = (t_header_lg *)mmap(0, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
+	printf("setsize = %zu", setsize);
+	printf("(debug) ADDR page MMAP = %p\n", h);
+	printf("\n---------------------------------------------------------\033[0m\n\n");
+
+	// h->secu_verif = (size_t)(h->secu_verif);
+	h->size = setsize;
+	h->req_size = glob.requested_size;
+	h->ptr = (void *)h + sizeof(t_header_lg);
+
+
+	if (*addr == NULL)
+	{
+		h->next = NULL;
+		h->previous = NULL;
+	}
+	else
+	{
+		prev = *addr;
+		prev->next = h;
+		h->previous = prev;
+		h->next = NULL;
+	printf("\n(debug) ADDR previous page = %p", h->previous);
+	printf("\n(debug) ADDR current page = %p\n", h);
+	}
+	glob.large = h;
+	printf("\n(debug) ADDR glob.large = %p\n", h);
+
+	return (h->ptr);
+}
+
+
+
+
+/******************************************************************************/
+/******************************************************************************/
 static void *parse_malloc_size()
 {
 	if  (glob.requested_size <= TI_MAX && glob.tiny == NULL)
@@ -163,13 +243,19 @@ static void *parse_malloc_size()
 		return (search_place(&(glob.small), SMALL));
 	else if (glob.requested_size > SM_MAX)
 	{
-		write(1, "\n\npas encore codé, return NULL\n", 31);
-		return (NULL); //a coder
+		// write(1, "\n\npas encore codé, return NULL\n", 31);
+		return (page_lg_init(&(glob.large)));
+		// return (NULL); //a coder
 	}
 	else
 		return (NULL);
 }
 
+
+
+
+/******************************************************************************/
+/******************************************************************************/
 //changer le nom de la fonction
 void	*my_malloc(size_t size)
 {

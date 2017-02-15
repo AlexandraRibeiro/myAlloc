@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/14 21:37:16 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 16:02:47 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,16 @@ typedef struct		s_header
 	struct s_header		*previous;
 }					t_header;
 
+typedef struct		s_header_lg
+{
+	size_t				secu_verif;
+	size_t				size;
+	size_t				req_size;
+	void				*ptr;
+	struct s_header_lg	*next;
+	struct s_header_lg	*previous;
+}					t_header_lg;
+
 /*
 ** t_header : stock ptr of the last page created not the first one (as a pile)
 */
@@ -64,7 +74,7 @@ struct				s_map
 	size_t				large_realloc;
 	t_header			*tiny;
 	t_header			*small;
-	t_header			*large;
+	t_header_lg			*large;
 };
 
 extern struct s_map glob;

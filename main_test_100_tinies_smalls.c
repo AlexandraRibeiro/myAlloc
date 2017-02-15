@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/15 15:19:58 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 18:13:49 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,33 @@ static void create_100_smalls(char *s)
 	printf("%s",s);
 }
 
+static void create_100_larges(char *l)
+{
+	int i = 0;
+	l = (char *)my_malloc(8000);
+	printf("(debug main) ADDR ptr LARGE = %p\n", l);
+
+	while (i < 7999)
+	{
+		l[i] = 'L';
+		i++;
+	}
+	l[i] = '\n';
+	l[++i] = '\0';
+
+	printf("%s",l);
+}
+
 int		main(int ac, char *av[])
 {
 	char	*t;
 	char	*s;
+	char 	*l;
 	int 	i;
-
 
 printf("_________________________________________________________________\n");
 printf("sizeof t_header = %zu\n",sizeof(t_header));
+printf("sizeof t_header_lg = %zu\n", sizeof(t_header_lg));
 printf("sizeof t_block = %zu\n",sizeof(t_block));
 printf("_________________________________________________________________\n\n");
 
@@ -62,17 +80,7 @@ printf("_________________________________________________________________\n\n");
 	{
 		create_100_tinies(t);
 		create_100_smalls(s);
-		// -------------------> testing getrlimit */
-	//    if (getrlimit (RLIMIT_MEMLOCK, &limits) == -1)
-	//    {
-	// 	perror ("The call to getrlimit() failed.");
-	// 	return EXIT_FAILURE;
-	//    }
-	//    else
-	//    {
-	// 	printf ("The current maximum number of processes is %d.\n", (int) limits.rlim_cur);
-	// 	printf("The hard limit on the number of processes is %d.\n", (int) limits.rlim_max);
-	//    }
+		create_100_larges(l);
 
 		i++;
 	}
