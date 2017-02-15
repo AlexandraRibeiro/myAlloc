@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/15 18:04:29 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 21:07:22 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,11 +242,7 @@ static void *parse_malloc_size()
 	else if  (glob.requested_size <= SM_MAX && glob.small != NULL)
 		return (search_place(&(glob.small), SMALL));
 	else if (glob.requested_size > SM_MAX)
-	{
-		// write(1, "\n\npas encore codé, return NULL\n", 31);
 		return (page_lg_init(&(glob.large)));
-		// return (NULL); //a coder
-	}
 	else
 		return (NULL);
 }

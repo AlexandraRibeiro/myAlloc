@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/15 16:02:47 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 21:08:03 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
 
-# define TINY			128 // taille block
 # define TI_REALLOC		10/100
-# define TI_MAX			TINY - (TINY * TI_REALLOC)
+# define TI_MAX			128
+# define TINY			TI_MAX + (TI_MAX * TI_REALLOC)
 
-# define SMALL			512
-# define SM_REALLOC		5/100
-# define SM_MAX			SMALL - (SMALL * SM_REALLOC)
+# define SM_REALLOC		1/100
+# define SM_MAX			1024
+# define SMALL			SM_MAX + (SM_MAX * SM_REALLOC)
 
 # define LG_REALLOC		1/100
 
