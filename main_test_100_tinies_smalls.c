@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/14 21:59:12 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 15:19:58 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,19 @@ static void create_100_tinies(char *t)
 
 static void create_100_smalls(char *s)
 {
-	// int i = 0;
+	int i = 0;
 	s = (char *)my_malloc(400);
 	printf("(debug main) ADDR ptr SMALL = %p\n", s);
 
-	// while (i < 254)
-	// {
-	// 	s[i] = 'S';
-	// 	i++;
-	// }
-	// s[i] = '\n';
-	// s[++i] = '\0';
-	//
-	// printf("%s",s);
+	while (i < 254)
+	{
+		s[i] = 'S';
+		i++;
+	}
+	s[i] = '\n';
+	s[++i] = '\0';
+
+	printf("%s",s);
 }
 
 int		main(int ac, char *av[])
@@ -52,10 +52,16 @@ int		main(int ac, char *av[])
 	char	*s;
 	int 	i;
 
+
+printf("_________________________________________________________________\n");
+printf("sizeof t_header = %zu\n",sizeof(t_header));
+printf("sizeof t_block = %zu\n",sizeof(t_block));
+printf("_________________________________________________________________\n\n");
+
 	while (i < 110)
 	{
 		create_100_tinies(t);
-		// create_100_smalls(s);
+		create_100_smalls(s);
 		// -------------------> testing getrlimit */
 	//    if (getrlimit (RLIMIT_MEMLOCK, &limits) == -1)
 	//    {

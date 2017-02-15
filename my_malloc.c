@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/14 21:58:39 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/15 15:14:59 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void		*search_place(t_header **h, int cas)
 printf("\n(debug) POSITION programme -> search_place\n");
 	while (1)
 	{
-		if (tmp->count_alloc != 0)
+		if (tmp->count_alloc > 1)
 		{
 			tmp->count_alloc--;
 printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
@@ -141,8 +141,8 @@ printf("(debug) h->count_alloc = %d", h->count_alloc);
 		prev->next = h;
 		h->previous = prev;
 		h->next = NULL;
-printf ("\n(debug) ADDR previous page = %p", h->previous);
-printf ("\n(debug) ADDR current page = %p\n", h);
+printf("\n(debug) ADDR previous page = %p", h->previous);
+printf("\n(debug) ADDR current page = %p\n", h);
 	}
 	if (cas == TINY)
 		glob.tiny = h;
