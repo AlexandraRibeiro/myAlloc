@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 15:21:32 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/16 16:01:51 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@
 
 # define TI_REALLOC		2/100
 # define TI_MAX			128
-# define TINY			TI_MAX + (TI_MAX * TI_REALLOC)
+# define TI_PADDING		TI_MAX + (TI_MAX * TI_REALLOC)
 
-# define SM_REALLOC		4
+# define SM_REALLOC		2
 # define SM_MAX			1024
-# define SMALL			SM_MAX + SM_REALLOC
+# define SM_PADDING		SM_MAX + SM_REALLOC
 
 # define LG_REALLOC		1/100
 

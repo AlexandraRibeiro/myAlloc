@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 15:19:33 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/16 21:10:08 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,21 @@ static size_t	get_size(int cas)
 
 	page_size = getpagesize();
 
-	if (cas == TINY || cas == SMALL)
+	if (cas == TI_PADDING || cas == SM_PADDING)
 		req = sizeof(t_header) + (sizeof(t_block) * 100) + (cas * 100);
 	else
 		req = sizeof(t_header_lg) + cas + (cas * LG_REALLOC);
 
-	// printf("\nsize requested = %zu", req);
+	printf("\nsize requested = %zu", req);
 	if (req % page_size != 0)
 	{
 		i = (req / page_size) + 1;
-	// printf("\n(debug) VALEUR +1 : multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
+	printf("\n(debug) VALEUR +1 : multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
 	}
 	else
 	{
 		i = req / page_size;
-	// printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
+	printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
 	}
 	return (i * page_size);
 }
@@ -59,10 +59,20 @@ static void		*create_block(int cas, t_header **page)
 
 	h = *page;
 	before = h->last_block;
-	current = (void *)before + sizeof(t_block);
-	// printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n", current, (void *)current - (void *)before);
 
-	// current->secu_verif = (size_t)&(current->secu_verif);
+	if (before->secu_verif != (size_t)before)
+	{
+		/*nettoyer la memoire*/
+		ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		return (NULL);
+	}
+	current = (void *)before + sizeof(t_block);
+	printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n", current, (void *)current - (void *)before);
+
+	current->secu_verif = (size_t)current;
+
+printf("(debug) BONUS SECU size_t secu_verif = %zu", current->secu_verif);
+
 	current->ptr = before->ptr + cas;
 	current->req_size = glob.requested_size;
 	current->next = before;
@@ -79,16 +89,16 @@ static void		*create_block(int cas, t_header **page)
 /******************************************************************************/
 static void	*init_1_block(t_header **page)
 {
-	// printf("\n(debug) POSITION programme -> init_1_block\n\n");
+	printf("\n(debug) POSITION programme -> init_1_block\n\n");
 	t_block		*b;
 	t_header 	*h;
 
 	h = *page;
 	b = h->last_block;
-	// printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
+	printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
 
 
-	// b->secu_verif = (size_t)&(b->secu_verif);
+	b->secu_verif = (size_t)b;
 	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
 	b->req_size = glob.requested_size;
 	b->next = NULL;
@@ -105,32 +115,28 @@ static void	*init_1_block(t_header **page)
 */
 static void		*search_place(t_header **h, int cas)
 {
-	// printf("\n(debug) POSITION programme -> search_place\n");
+	printf("\n(debug) POSITION programme -> search_place\n");
 	t_header *tmp;
 
 	tmp = *h;
 	while (1)
 	{
-		if (tmp->count_alloc > 1)
+		if (tmp->secu_verif != (size_t)tmp)
+		{
+			/*nettoyer la memoire*/
+			ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+			return (NULL);
+		}
+		else if (tmp->count_alloc > 1)
 		{
 			tmp->count_alloc--;
-	// printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
+	printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
 			return (create_block(cas, h));
 		}
 		else if (tmp->next == NULL)
-		{
-	// printf("h->next = NULL\n");
 			return (page_init(h, cas));
-		}
 		else
 			tmp = tmp->next;
-
-		// else if (h->secu_verif != (size_t)&(h->secu_verif))
-		// {
-		// 	/*nettoyer la memoire*/
-		// 	ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-		// 	return (NULL);
-		// }
 	}
 }
 
@@ -145,19 +151,19 @@ void		*page_init(t_header **addr, int cas)
 	t_header	*prev;
 
 	//getrlimit
-	// printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
+	printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
 	h = (t_header *)mmap(0, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
-	// printf("(debug) ADDR page MMAP = %p\n", h);
-	// printf("\n---------------------------------------------------------\033[0m\n\n");
+	printf("(debug) ADDR page MMAP = %p\n", h);
+	printf("\n---------------------------------------------------------\033[0m\n\n");
 
 
 	prev = *addr;
 
-	// h->secu_verif = (size_t)(h->secu_verif);
+	h->secu_verif = (size_t)h;
 	h->count_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
 	h->last_block =  (void *)h + sizeof(t_header);
 
-	// printf("(debug) h->count_alloc = %d", h->count_alloc);
+	printf("(debug) h->count_alloc = %d", h->count_alloc);
 
 	if (*addr == NULL)
 	{
@@ -169,14 +175,13 @@ void		*page_init(t_header **addr, int cas)
 		prev->next = h;
 		h->previous = prev;
 		h->next = NULL;
-	// printf("\n(debug) ADDR previous page = %p", h->previous);
-	// printf("\n(debug) ADDR current page = %p\n", h);
+	printf("\n(debug) ADDR previous page = %p", h->previous);
+	printf("\n(debug) ADDR current page = %p\n", h);
 	}
-	if (cas == TINY)
+	if (cas == TI_PADDING)
 		glob.tiny = h;
-	else if (cas == SMALL)
+	else if (cas == SM_PADDING)
 		glob.small = h;
-
 	return (init_1_block(&h));
 }
 
@@ -194,13 +199,13 @@ static void		*page_lg_init(t_header_lg **addr)
 	setsize = get_size((int)glob.requested_size);
 
 	//getrlimit
-	// printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
+	printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
 	h = (t_header_lg *)mmap(0, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
-	// printf("setsize = %zu", setsize);
-	// printf("(debug) ADDR page MMAP = %p\n", h);
-	// printf("\n---------------------------------------------------------\033[0m\n\n");
+	printf("setsize = %zu", setsize);
+	printf("(debug) ADDR page MMAP = %p\n", h);
+	printf("\n---------------------------------------------------------\033[0m\n\n");
 
-	// h->secu_verif = (size_t)(h->secu_verif);
+	h->secu_verif = (size_t)h;
 	h->size = setsize;
 	h->req_size = glob.requested_size;
 	h->ptr = (void *)h + sizeof(t_header_lg);
@@ -217,11 +222,11 @@ static void		*page_lg_init(t_header_lg **addr)
 		prev->next = h;
 		h->previous = prev;
 		h->next = NULL;
-	// printf("\n(debug) ADDR previous page = %p", h->previous);
-	// printf("\n(debug) ADDR current page = %p\n", h);
+	printf("\n(debug) ADDR previous page = %p", h->previous);
+	printf("\n(debug) ADDR current page = %p\n", h);
 	}
 	glob.large = h;
-	// printf("\n(debug) ADDR glob.large = %p\n", h);
+	printf("\n(debug) ADDR glob.large = %p\n", h);
 
 	return (h->ptr);
 }
@@ -234,13 +239,13 @@ static void		*page_lg_init(t_header_lg **addr)
 static void *parse_malloc_size()
 {
 	if  (glob.requested_size <= TI_MAX && glob.tiny == NULL)
-		return (page_init(&(glob.tiny), TINY));
+		return (page_init(&(glob.tiny), TI_PADDING));
 	else if  (glob.requested_size <= TI_MAX && glob.tiny != NULL)
-		return (search_place(&(glob.tiny), TINY));
+		return (search_place(&(glob.tiny), TI_PADDING));
 	else if  (glob.requested_size <= SM_MAX && glob.small == NULL)
-		return (page_init(&(glob.small), SMALL));
+		return (page_init(&(glob.small), SM_PADDING));
 	else if  (glob.requested_size <= SM_MAX && glob.small != NULL)
-		return (search_place(&(glob.small), SMALL));
+		return (search_place(&(glob.small), SM_PADDING));
 	else if (glob.requested_size > SM_MAX)
 		return (page_lg_init(&(glob.large)));
 	else

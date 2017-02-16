@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 15:14:21 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:58:21 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void create_100_tinies(char *t)
 	t = (char *)my_malloc(TI_MAX);
 	printf("(debug main) ADDR ptr TINY = %p\n", t);
 		write(1, "boucle\n", 7);
-	while (i < (TINY - 1))
+	while (i < (TI_PADDING - 1))
 	{
 		t[i] = 'T';
 		i++;
@@ -35,7 +35,7 @@ static void create_100_smalls(char *s)
 	s = (char *)my_malloc(SM_MAX);
 	printf("(debug main) ADDR ptr SMALL = %p\n", s);
 
-	while (i < (SMALL - 1))
+	while (i < (SM_PADDING - 1))
 	{
 		s[i] = 'S';
 		i++;
@@ -78,10 +78,10 @@ printf("_________________________________________________________________\n\n");
 
 	while (i < 110)
 	{
-		// printf("\n\033[35;1mi = %d\033[0m\n", i);
-		// create_100_tinies(t);
-		// printf("\n\033[35;1mi = %d\033[0m\n", i);
-		// create_100_smalls(s);
+		printf("\n\033[35;1mi = %d\033[0m\n", i);
+		create_100_tinies(t);
+		printf("\n\033[35;1mi = %d\033[0m\n", i);
+		create_100_smalls(s);
 		printf("\n\033[35;1mi = %d\033[0m\n", i);
 		create_100_larges(l);
 
