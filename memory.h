@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 14:51:13 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:21:32 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
 
-# define TI_REALLOC		5/100
+# define TI_REALLOC		2/100
 # define TI_MAX			128
 # define TINY			TI_MAX + (TI_MAX * TI_REALLOC)
 
+# define SM_REALLOC		4
 # define SM_MAX			1024
-# define SMALL			SM_MAX + 4
+# define SMALL			SM_MAX + SM_REALLOC
 
 # define LG_REALLOC		1/100
 
@@ -76,6 +77,7 @@ struct				s_map
 	t_header_lg			*large;
 };
 
+/* globals */
 extern struct s_map glob;
 
 /*_______ MY MALLOC __________________________________________________________*/

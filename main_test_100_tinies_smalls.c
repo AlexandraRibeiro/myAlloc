@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/15 18:13:49 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/16 15:14:21 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void create_100_tinies(char *t)
 {
 	int i = 0;
-	t = (char *)my_malloc(100);
+	t = (char *)my_malloc(TI_MAX);
 	printf("(debug main) ADDR ptr TINY = %p\n", t);
 		write(1, "boucle\n", 7);
-	while (i < 95)
+	while (i < (TINY - 1))
 	{
 		t[i] = 'T';
 		i++;
@@ -32,10 +32,10 @@ static void create_100_tinies(char *t)
 static void create_100_smalls(char *s)
 {
 	int i = 0;
-	s = (char *)my_malloc(400);
+	s = (char *)my_malloc(SM_MAX);
 	printf("(debug main) ADDR ptr SMALL = %p\n", s);
 
-	while (i < 254)
+	while (i < (SMALL - 1))
 	{
 		s[i] = 'S';
 		i++;
@@ -68,7 +68,7 @@ int		main(int ac, char *av[])
 	char	*t;
 	char	*s;
 	char 	*l;
-	int 	i;
+	int 	i = 1;
 
 printf("_________________________________________________________________\n");
 printf("sizeof t_header = %zu\n",sizeof(t_header));
@@ -78,8 +78,11 @@ printf("_________________________________________________________________\n\n");
 
 	while (i < 110)
 	{
-		create_100_tinies(t);
-		create_100_smalls(s);
+		// printf("\n\033[35;1mi = %d\033[0m\n", i);
+		// create_100_tinies(t);
+		// printf("\n\033[35;1mi = %d\033[0m\n", i);
+		// create_100_smalls(s);
+		printf("\n\033[35;1mi = %d\033[0m\n", i);
 		create_100_larges(l);
 
 		i++;
