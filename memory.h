@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 16:01:51 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/17 17:57:44 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@ typedef struct		s_block
 	struct s_block		*next;
 }					t_block;
 
-/*
-** void *last_block : stock ptr of the last block allocated not the first (as a pile)
-*/
 typedef struct		s_header
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
+	int					padding;
 	int					count_alloc;
 	void				*last_block; // debut de la structure pour les blocks (pile)
 	struct s_header		*next;
@@ -62,30 +60,27 @@ typedef struct		s_header_lg
 	struct s_header_lg	*previous;
 }					t_header_lg;
 
-/*
-** t_header : stock ptr of the last page created not the first one (as a pile)
-*/
-struct				s_map
+typedef struct		s_map
 {
-	int					flags;
-	size_t				requested_size;
-	size_t				tiny_realloc;
-	size_t				small_realloc;
-	size_t				large_realloc;
+	int					bonus_secu;
 	t_header			*tiny;
 	t_header			*small;
 	t_header_lg			*large;
-};
+}					t_map;
 
-/* globals */
-extern struct s_map glob;
+/*
+** globals
+*/
+extern t_map glob;
+
+
 
 /*_______ MY MALLOC __________________________________________________________*/
-void				*my_malloc(size_t size);
-void				*page_init(t_header **addr, int cas);
+void				*my_malloc(size_t size); //changer le nom
+void				*header_init(t_header **addr, int cas, size_t size);
 
 /*_______ MY FREE ____________________________________________________________*/
-// void		free(void *ptr);
+void				my_free(void *ptr); //changer le nom
 
 /*_______ MY REALLOC _________________________________________________________*/
 // void		*realloc(void *ptr, size_t size);

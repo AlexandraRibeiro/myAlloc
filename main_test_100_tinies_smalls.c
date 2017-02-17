@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 15:58:21 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/17 14:37:40 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ static void create_100_larges(char *l)
 	printf("%s",l);
 }
 
-int		main(int ac, char *av[])
+int		main()
 {
-	char	*t;
-	char	*s;
-	char 	*l;
+	char	*t = NULL;
+	char	*s = NULL;
+	char 	*l = NULL;
 	int 	i = 1;
 
 printf("_________________________________________________________________\n");

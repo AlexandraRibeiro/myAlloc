@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/16 21:10:08 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/17 18:05:03 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-struct s_map glob;
+t_map glob;
 
 
 
@@ -51,7 +51,7 @@ static size_t	get_size(int cas)
 
 /******************************************************************************/
 /******************************************************************************/
-static void		*create_block(int cas, t_header **page)
+static void		*create_block(int cas, t_header **page, size_t size)
 {
 	t_header	*h;
 	t_block *before;
@@ -74,7 +74,7 @@ static void		*create_block(int cas, t_header **page)
 printf("(debug) BONUS SECU size_t secu_verif = %zu", current->secu_verif);
 
 	current->ptr = before->ptr + cas;
-	current->req_size = glob.requested_size;
+	current->req_size = size;
 	current->next = before;
 
 	h->last_block = current; //rempli comme une pile je change le pointeur du debut
@@ -87,7 +87,7 @@ printf("(debug) BONUS SECU size_t secu_verif = %zu", current->secu_verif);
 
 /******************************************************************************/
 /******************************************************************************/
-static void	*init_1_block(t_header **page)
+static void	*init_1_block(t_header **page, size_t size)
 {
 	printf("\n(debug) POSITION programme -> init_1_block\n\n");
 	t_block		*b;
@@ -100,7 +100,7 @@ static void	*init_1_block(t_header **page)
 
 	b->secu_verif = (size_t)b;
 	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
-	b->req_size = glob.requested_size;
+	b->req_size = size;
 	b->next = NULL;
 	return (b->ptr);
 }
@@ -113,7 +113,7 @@ static void	*init_1_block(t_header **page)
 /*
 ** Parsing : searching an empty place || create a new page
 */
-static void		*search_place(t_header **h, int cas)
+static void		*search_place(t_header **h, int cas, size_t size)
 {
 	printf("\n(debug) POSITION programme -> search_place\n");
 	t_header *tmp;
@@ -125,16 +125,17 @@ static void		*search_place(t_header **h, int cas)
 		{
 			/*nettoyer la memoire*/
 			ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+			glob.bonus_secu = 1;
 			return (NULL);
 		}
 		else if (tmp->count_alloc > 1)
 		{
 			tmp->count_alloc--;
 	printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
-			return (create_block(cas, h));
+			return (create_block(cas, h, size));
 		}
 		else if (tmp->next == NULL)
-			return (page_init(h, cas));
+			return (header_init(h, cas, size));
 		else
 			tmp = tmp->next;
 	}
@@ -145,7 +146,7 @@ static void		*search_place(t_header **h, int cas)
 
 /******************************************************************************/
 /******************************************************************************/
-void		*page_init(t_header **addr, int cas)
+void		*header_init(t_header **addr, int cas, size_t size)
 {
 	t_header	*h;
 	t_header	*prev;
@@ -160,6 +161,7 @@ void		*page_init(t_header **addr, int cas)
 	prev = *addr;
 
 	h->secu_verif = (size_t)h;
+	h->padding = cas;
 	h->count_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
 	h->last_block =  (void *)h + sizeof(t_header);
 
@@ -182,7 +184,7 @@ void		*page_init(t_header **addr, int cas)
 		glob.tiny = h;
 	else if (cas == SM_PADDING)
 		glob.small = h;
-	return (init_1_block(&h));
+	return (init_1_block(&h, size));
 }
 
 
@@ -190,13 +192,13 @@ void		*page_init(t_header **addr, int cas)
 
 /******************************************************************************/
 /******************************************************************************/
-static void		*page_lg_init(t_header_lg **addr)
+static void		*header_lg_init(t_header_lg **addr, size_t size)
 {
 	t_header_lg	*h;
 	t_header_lg	*prev;
 	size_t		setsize;
 
-	setsize = get_size((int)glob.requested_size);
+	setsize = get_size((int)size);
 
 	//getrlimit
 	printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
@@ -207,7 +209,7 @@ static void		*page_lg_init(t_header_lg **addr)
 
 	h->secu_verif = (size_t)h;
 	h->size = setsize;
-	h->req_size = glob.requested_size;
+	h->req_size = size;
 	h->ptr = (void *)h + sizeof(t_header_lg);
 
 
@@ -236,18 +238,18 @@ static void		*page_lg_init(t_header_lg **addr)
 
 /******************************************************************************/
 /******************************************************************************/
-static void *parse_malloc_size()
+static void *parse_malloc_size(size_t size)
 {
-	if  (glob.requested_size <= TI_MAX && glob.tiny == NULL)
-		return (page_init(&(glob.tiny), TI_PADDING));
-	else if  (glob.requested_size <= TI_MAX && glob.tiny != NULL)
-		return (search_place(&(glob.tiny), TI_PADDING));
-	else if  (glob.requested_size <= SM_MAX && glob.small == NULL)
-		return (page_init(&(glob.small), SM_PADDING));
-	else if  (glob.requested_size <= SM_MAX && glob.small != NULL)
-		return (search_place(&(glob.small), SM_PADDING));
-	else if (glob.requested_size > SM_MAX)
-		return (page_lg_init(&(glob.large)));
+	if  (size <= TI_MAX && glob.tiny == NULL)
+		return (header_init(&(glob.tiny), TI_PADDING, size));
+	else if  (size <= TI_MAX && glob.tiny != NULL)
+		return (search_place(&(glob.tiny), TI_PADDING, size));
+	else if  (size <= SM_MAX && glob.small == NULL)
+		return (header_init(&(glob.small), SM_PADDING, size));
+	else if  (size <= SM_MAX && glob.small != NULL)
+		return (search_place(&(glob.small), SM_PADDING, size));
+	else if (size > SM_MAX)
+		return (header_lg_init(&(glob.large), size));
 	else
 		return (NULL);
 }
@@ -260,12 +262,16 @@ static void *parse_malloc_size()
 //changer le nom de la fonction
 void	*my_malloc(size_t size)
 {
-	//mutex
-	glob.requested_size = size;
+	// mutex
+	if (glob.bonus_secu == 1)
+	{
+		ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		return (NULL);
+	}
 	if (size <= 0)
 	{
 		ft_putstr_fd("ERROR MALLOC : size <= 0", 2);
 		return (NULL);
 	}
-	return (parse_malloc_size());
+	return (parse_malloc_size(size));
 }
