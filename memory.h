@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 17:57:44 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:02:36 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct		s_block
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
 	void				*ptr; //stock le pointeur de la zone memoire allouee
 	size_t				req_size; // size demandee avec le malloc
-	struct s_block		*next;
+	struct s_block		*previous;
 }					t_block;
 
 typedef struct		s_header
@@ -47,24 +47,21 @@ typedef struct		s_header
 	int					count_alloc;
 	void				*last_block; // debut de la structure pour les blocks (pile)
 	struct s_header		*next;
-	struct s_header		*previous;
 }					t_header;
 
 typedef struct		s_header_lg
 {
 	size_t				secu_verif;
-	size_t				size;
+	int					padding;
 	size_t				req_size;
 	void				*ptr;
 	struct s_header_lg	*next;
-	struct s_header_lg	*previous;
 }					t_header_lg;
 
 typedef struct		s_map
 {
 	int					bonus_secu;
-	t_header			*tiny;
-	t_header			*small;
+	t_header			*tiny_small;
 	t_header_lg			*large;
 }					t_map;
 
