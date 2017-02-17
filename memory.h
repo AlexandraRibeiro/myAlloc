@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 19:02:36 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:48:31 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 
 /*_______ BONUS ______________________________________________________________*/
+int					verif_secu(size_t secu, void *ptr);
+
 // free_all (libere tous les pointeurs)
 // free_all_secure (libere les ptr et reinitialise la memoire a 0 avec bzero)
 

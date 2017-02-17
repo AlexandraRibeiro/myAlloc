@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 19:19:57 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/17 21:40:48 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,25 +88,26 @@ static void		*create_block(int cas, t_header **page, size_t size)
 
 /******************************************************************************/
 /******************************************************************************/
-static void	*init_1_block(t_header **page, size_t size)
+static void		*search_empty_block(int cas, t_header **page, size_t size)
 {
-	// printf("\n(debug) POSITION programme -> init_1_block\n\n");
-	t_block		*b;
-	t_header 	*h;
+	t_block	*b;
+	t_header *h;
 
 	h = *page;
 	b = h->last_block;
-	// printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
-
-
-	b->secu_verif = (size_t)b;
-	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
-	b->req_size = size;
-	b->previous = NULL;
-	return (b->ptr);
+	while (b != NULL)
+	{
+		if (verif_secu(b->secu_verif, (void *)b) == 1)
+			return (NULL);
+		if (b->req_size == 0)
+		{
+			b->req_size = size;
+			return (b->ptr);
+		}
+		b = b->previous;
+	}
+	create_block(cas, page, size);
 }
-
-
 
 
 /******************************************************************************/
@@ -124,7 +125,6 @@ static void		*search_place(t_header **first, int cas, size_t size)
 	{
 		if (tmp->secu_verif != (size_t)tmp)
 		{
-			/*nettoyer la memoire*/
 			ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 			glob.bonus_secu = 1;
 			return (NULL);
@@ -134,7 +134,7 @@ static void		*search_place(t_header **first, int cas, size_t size)
 // printf("\nok padding\n");
 			tmp->count_alloc--;
 		// printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
-			return (create_block(cas, &tmp, size));
+			return (search_empty_block(cas, &tmp, size));
 		}
 		else if (tmp->next == NULL)
 			return (header_init(first, cas, size));
@@ -144,6 +144,26 @@ static void		*search_place(t_header **first, int cas, size_t size)
 }
 
 
+
+/******************************************************************************/
+/******************************************************************************/
+static void	*init_1_block(t_header **page, size_t size)
+{
+	// printf("\n(debug) POSITION programme -> init_1_block\n\n");
+	t_block		*b;
+	t_header 	*h;
+
+	h = *page;
+	b = h->last_block;
+	// printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
+
+
+	b->secu_verif = (size_t)b;
+	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
+	b->req_size = size;
+	b->previous = NULL;
+	return (b->ptr);
+}
 
 
 /******************************************************************************/
