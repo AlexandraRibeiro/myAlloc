@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 19:48:31 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/20 16:37:11 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct		s_header
 typedef struct		s_header_lg
 {
 	size_t				secu_verif;
-	int					padding;
+	int					padding; //size total
 	size_t				req_size;
 	void				*ptr;
 	struct s_header_lg	*next;
@@ -78,6 +78,7 @@ void				*header_init(t_header **addr, int cas, size_t size);
 
 /*_______ MY FREE ____________________________________________________________*/
 void				my_free(void *ptr); //changer le nom
+void				free_header_lg(t_header_lg **head, t_header_lg **prev);
 
 /*_______ MY REALLOC _________________________________________________________*/
 // void		*realloc(void *ptr, size_t size);

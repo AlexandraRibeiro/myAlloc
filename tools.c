@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 21:23:22 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/20 16:36:07 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,24 @@ void	init_header_tiny_small(t_header **head)
 
 	h = *head;
 	b->count_alloc = 0
+}
+
+
+void	free_header_lg(t_header_lg **head, t_header_lg **prev)
+{
+	t_header_lg *tmp;
+	t_header_lg *prev;
+
+	tmp = *head;
+	prev = *prev;
+
+	if (prev == NULL)
+		glob.large = NULL;
+	else
+		prev->next = tmp->next;
+	if (munmap(addr, (size_t)tmp->req_size) == -1)
+	{
+		ft_putstr_fd("ERROR MUNMAP()", 2);
+		return ;
+	}
 }

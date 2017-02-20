@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 21:43:55 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/20 16:37:22 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,18 @@ static void		search_ptr(void **ptr)
 {
 	t_header_lg	*l;
 	t_header	*ts;
+	t_header_lg *prev;
 
 	l = glob.large;
 	ts = glob.tiny_small;
+	prev = NULL;
 	while (l != NULL)
 	{
 		if (verif_secu(l->secu_verif, (void *)l) == 1)
 			return;
 		if (l->ptr == *ptr)
 		{
-			if (l->)
-			free_large(ptr, &l);
+			free_header_lg(&l, &prev);
 			return;
 		}
 		l = l->next;
