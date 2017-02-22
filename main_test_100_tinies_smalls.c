@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 14:37:40 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/22 16:01:58 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-static void create_100_tinies(char *t)
+static char *create_100_tinies(char *t)
 {
 	int i = 0;
 	t = (char *)my_malloc(TI_MAX);
@@ -27,9 +27,10 @@ static void create_100_tinies(char *t)
 	t[++i] = '\0';
 
 	printf("%s",t);
+	return (t);
 }
 
-static void create_100_smalls(char *s)
+static char *create_100_smalls(char *s)
 {
 	int i = 0;
 	s = (char *)my_malloc(SM_MAX);
@@ -44,9 +45,10 @@ static void create_100_smalls(char *s)
 	s[++i] = '\0';
 
 	printf("%s",s);
+	return (s);
 }
 
-static void create_100_larges(char *l)
+static char *create_100_larges(char *l)
 {
 	int i = 0;
 	l = (char *)my_malloc(8000);
@@ -61,6 +63,7 @@ static void create_100_larges(char *l)
 	l[++i] = '\0';
 
 	printf("%s",l);
+	return (l);
 }
 
 int		main()
@@ -79,13 +82,20 @@ printf("_________________________________________________________________\n\n");
 	while (i < 110)
 	{
 		printf("\n\033[35;1mi = %d\033[0m\n", i);
-		create_100_tinies(t);
+		t = create_100_tinies(t);
 		printf("\n\033[35;1mi = %d\033[0m\n", i);
-		create_100_smalls(s);
+		s = create_100_smalls(s);
 		printf("\n\033[35;1mi = %d\033[0m\n", i);
-		create_100_larges(l);
-
+		l = create_100_larges(l);
+		if (i == 50)
+		{
+			my_free(s);
+			show_alloc_map();
+		}
 		i++;
 	}
+
+	show_alloc_map();
+
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/21 15:44:12 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/22 14:45:31 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,8 @@ void		*header_init(t_header **first, int cas, size_t size)
 
 	h->secu_verif = (size_t)h;
 	h->padding = cas;
-	h->count_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
+	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
+	h->count_alloc = h->max_alloc;
 	h->last_block =  (void *)h + sizeof(t_header);
 
 	printf("(debug) h->count_alloc = %d", h->count_alloc);

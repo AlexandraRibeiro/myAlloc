@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/21 16:48:54 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/22 15:48:51 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ printf("\n\n => AVANT FREE :\n");
 	printf("(verif ADDR dans GLOB : glob.large = %p\n", glob.large);
 	printf("(verif VALEUR dans GLOB : glob.bonus_secu = %i\n", glob.bonus_secu);
 
-
+	my_free(l);
 	// printf("%s", l); //doit segfault
 	return (l);
 }
@@ -78,7 +78,7 @@ printf("\n\n => APRES FREE LARGE :\n");
 	printf("(verif ADDR dans GLOB : glob.large = %p\n", glob.large);
 	printf("(verif VALEUR dans GLOB : glob.bonus_secu = %i\n", glob.bonus_secu);
 
-
+	
 	// printf("%s", l); //doit segfault
 
 	return (0);

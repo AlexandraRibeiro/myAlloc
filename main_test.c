@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/17 14:36:16 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/22 15:48:49 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ printf("(debug main) ADDR 3eme ptr small3 = %p, decalage avec small2 = %ld\n", s
 		ft_putstr_fd(large2, 1);
 		ft_putstr_fd(large3, 1);
 
+		show_alloc_map();
 
 	return (0);
 }

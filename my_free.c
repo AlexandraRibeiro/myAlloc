@@ -6,58 +6,59 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/21 16:41:08 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/22 15:28:08 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-// static void		free_tiny_small(void **ptr, t_block	**block, t_header **head)
-// {
-// 	t_header	*h;
-// 	t_block		*b;
-//
-// 	h = *head;
-// 	b = *block;
-//
-// 	h->count_alloc--;
-// 	if (h->count_alloc > 1)
-// 	{
-//
-// 	}
-// 	else
-// 		free_header_tiny_small(head);
-// }
+static void		free_ts(t_block	**bk, t_header **hd, t_header **pv)
+{
+	t_header	*h;
+	t_block		*b;
+
+	h = *hd;
+	b = *bk;
+
+	h->count_alloc++;
+	if (h->count_alloc == h->max_alloc)
+		free_header_ts(hd, pv);
+	else
+		b->req_size = 0;
+}
 
 
 /* attentio aux blocks vides, bien verifier la size en plus du ptr */
-// static int		search_ptr_tiny_small(void **ptr)
-// {
-// 	t_header *ts;
-// 	t_block	*b;
-//
-// 	ts = glob.tiny_small;
-// 	b = NULL;
-// 	while (ts != NULL)
-// 	{
-// 		if (verif_secu(ts->secu_verif, (void *)ts) == 1)
-// 			return;
-// 		b = ts->last_block;
-// 		while (b != NULL)
-// 		{
-// 			if (verif_secu(b->secu_verif, (void *)b) == 1)
-// 				return (1);
-// 			if (b->ptr == *ptr)
-// 			{
-// 				free_tiny_small(ptr, &b, &ts);
-// 				return (1);
-// 			}
-// 			b = b->previous;
-// 		}
-// 		ts = ts->next;
-// 	}
-// 	return (0);
-// }
+static int		search_ptr_ts(void **ptr)
+{
+	t_header *ts;
+	t_header *prev;
+	t_block	*b;
+
+	ts = glob.tiny_small;
+	prev = NULL;
+	b = NULL;
+	while (ts != NULL)
+	{
+		if (verif_secu(ts->secu_verif, (void *)ts) == 1)
+			return (1);
+		b = ts->last_block;
+		while (b != NULL)
+		{
+			if (verif_secu(b->secu_verif, (void *)b) == 1)
+				return (1);
+			if (b->ptr == *ptr)
+			{
+				free_ts(&b, &ts, &prev);
+				return (1);
+			}
+			b = b->previous;
+		}
+		prev = ts;
+		ts = ts->next;
+	}
+	return (0);
+}
 
 static void		search_ptr(void **ptr)
 {
@@ -81,8 +82,8 @@ static void		search_ptr(void **ptr)
 		l = l->next;
 	}
 	/* Verif si Tiny ou Small */
-	// if (search_ptr_tiny_small(ptr) == 1)
-	// 	return ;
+	if (search_ptr_ts(ptr) == 1)
+		return ;
 	/*si Ici il n'a pas trouvé le ptr */
 	ft_putstr_fd("FREE / NOTIFY : void *ptr not found", 2);
 	return ;

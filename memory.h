@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/20 16:37:11 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/22 16:13:14 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct		s_header
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
 	int					padding;
+	int					max_alloc;
 	int					count_alloc;
 	void				*last_block; // debut de la structure pour les blocks (pile)
 	struct s_header		*next;
@@ -78,7 +79,8 @@ void				*header_init(t_header **addr, int cas, size_t size);
 
 /*_______ MY FREE ____________________________________________________________*/
 void				my_free(void *ptr); //changer le nom
-void				free_header_lg(t_header_lg **head, t_header_lg **prev);
+void				free_header_lg(t_header_lg **head, t_header_lg **previous);
+void 				free_header_ts(t_header **head, t_header **previous);
 
 /*_______ MY REALLOC _________________________________________________________*/
 // void		*realloc(void *ptr, size_t size);
@@ -92,9 +94,11 @@ void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void				ft_memdel(void **ap);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
+void				ft_putnbr_fd(int n, int fd);
 
 /*_______ BONUS ______________________________________________________________*/
 int					verif_secu(size_t secu, void *ptr);
+void 				show_alloc_map();
 
 // free_all (libere tous les pointeurs)
 // free_all_secure (libere les ptr et reinitialise la memoire a 0 avec bzero)
