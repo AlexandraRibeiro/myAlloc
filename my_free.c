@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 15:28:08 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/22 19:48:14 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,16 @@ static void		free_ts(t_block	**bk, t_header **hd, t_header **pv)
 	h = *hd;
 	b = *bk;
 
+	if (b->req_size == 0)
+		return;
 	h->count_alloc++;
-	if (h->count_alloc == h->max_alloc)
+	if (h->count_alloc > h->max_alloc)
 		free_header_ts(hd, pv);
 	else
 		b->req_size = 0;
 }
 
 
-/* attentio aux blocks vides, bien verifier la size en plus du ptr */
 static int		search_ptr_ts(void **ptr)
 {
 	t_header *ts;
@@ -93,6 +94,7 @@ static void		search_ptr(void **ptr)
 void			my_free(void *ptr)
 {
 	// mutex
+	ft_putstr_fd("--------------------------------------------------\n", 1);
 	if (ptr == NULL)
 		return ;
 	if (glob.bonus_secu == 1)

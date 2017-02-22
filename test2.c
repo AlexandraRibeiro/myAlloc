@@ -7,14 +7,13 @@ int		main()
 	char *addr;
 
 	i = 0;
-	while (i < 1024)
+	while (i< 1024)
 	{
-		addr = (char *)my_malloc(1024);
+		addr = (char *)my_malloc(10024);
 		addr[0] = 42;
+// printf("\nVERIF ADDR de addr = %p", addr);
+		my_free(addr);
 		i++;
 	}
-	show_alloc_map();
-	// my_free(addr);
-
 	return (0);
 }

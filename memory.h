@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 16:13:14 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/22 20:36:46 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 # define MEMORY_H
 
 # include <unistd.h>
-# include <stdio.h>
+// # include <stdio.h>
 # include <sys/mman.h>
 # include <sys/resource.h>
-# include <stdlib.h>
+// # include <stdlib.h>
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
 
-# define TI_REALLOC		2/100
+# define TI_REALLOC		1/100
 # define TI_MAX			128
 # define TI_PADDING		TI_MAX + (TI_MAX * TI_REALLOC)
 
@@ -76,6 +76,7 @@ extern t_map glob;
 /*_______ MY MALLOC __________________________________________________________*/
 void				*my_malloc(size_t size); //changer le nom
 void				*header_init(t_header **addr, int cas, size_t size);
+size_t				get_size(int cas);
 
 /*_______ MY FREE ____________________________________________________________*/
 void				my_free(void *ptr); //changer le nom

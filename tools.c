@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 15:24:23 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/22 20:17:20 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_header_lg(t_header_lg **head, t_header_lg **previous)
 		glob.large = tmp->next;
 	else
 		prev->next = tmp->next;
-	if (munmap((void *)tmp, (size_t)tmp->padding) == -1)
+	if (munmap((void *)tmp, tmp->padding) == -1)
 	{
 		ft_putstr_fd("ERROR MUNMAP()", 2);
 		return ;
@@ -47,20 +47,26 @@ void	free_header_lg(t_header_lg **head, t_header_lg **previous)
 
 void 	free_header_ts(t_header **head, t_header **previous)
 {
-	t_header *tmp;
-	t_header *prev;
+	t_header 	*tmp;
+	t_header 	*prev;
+	size_t		setsize;
 
 	tmp = *head;
 	prev = *previous;
+	setsize = get_size(tmp->padding);
+	// printf("\n *****MUNMAP size TINY SMALL = %zu\n\n", setsize);
+	// printf("(debug) ADDR page MUNMAP = %p\n", (void *)tmp);
+
 	if (prev == NULL && tmp->next == NULL)
 		glob.tiny_small = NULL;
 	else if (prev == NULL && tmp->next != NULL)
 		glob.tiny_small = tmp->next;
 	else
 		prev->next = tmp->next;
-	if (munmap((void *)tmp, (size_t)tmp->padding) == -1)
+	if (munmap((void *)tmp, setsize) == -1)
 	{
 		ft_putstr_fd("ERROR MUNMAP()", 2);
 		return ;
 	}
+	// printf("\n********** OK munmap %p\n", tmp);
 }

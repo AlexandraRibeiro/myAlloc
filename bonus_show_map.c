@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 16:52:20 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/22 17:18:17 by Alex             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	print_alloc(int i, void *block, int total)
 		total--;
 	}
 	else
-		ft_putstr_fd("\033[35;1m X \033[0m|", 1);
+		ft_putstr_fd("\033[35;1m M \033[0m|", 1);
 	return (total);
 }
 
@@ -73,7 +73,7 @@ static int	read_large_alloc(int total)
 		if (h->req_size != 0)
 		{
 			i++;
-			ft_putstr_fd("\n\033[35;1m X \033[0m|", 1);
+			ft_putstr_fd("\n\033[35;1m M \033[0m|", 1);
 			write(1, "\n => ", 5);
 			ft_putnbr_fd(i, 1);
 			ft_putstr_fd(" allocation\n", 1);
