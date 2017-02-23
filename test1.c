@@ -14,7 +14,7 @@ int		main()
 		i++;
 	}
 	//show_alloc_map();
-	// my_free(addr);
+	// free(addr);
 
 	return (0);
 }

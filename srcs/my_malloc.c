@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 15:38:45 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 17:55:44 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,6 +287,7 @@ static void *parse_malloc_size(size_t size)
 void	*malloc(size_t size)
 {
 	// mutex
+	// show_alloc_map();
 	if (glob.bonus_secu == 1)
 	{
 		ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);

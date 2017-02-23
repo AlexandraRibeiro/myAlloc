@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 15:35:33 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 17:58:16 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void				free_header_lg(t_header_lg **head, t_header_lg **previous);
 void 				free_header_ts(t_header **head, t_header **previous);
 
 /*_______ MY REALLOC _________________________________________________________*/
-// void		*realloc(void *ptr, size_t size);
+void				*realloc(void *ptr, size_t size);
 
 /*_______ Show allocation memory _____________________________________________*/
 // void		show_alloc_mem();
