@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 11:56:00 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 15:35:33 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // # include <stdio.h>
 # include <sys/mman.h>
 # include <sys/resource.h>
-# include <stdlib.h>
+// # include <stdlib.h>
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
@@ -26,7 +26,7 @@
 # define TI_MAX			128
 # define TI_PADDING		TI_MAX + (TI_MAX * TI_REALLOC)
 
-# define SM_REALLOC		2
+# define SM_REALLOC		17
 # define SM_MAX			1024
 # define SM_PADDING		SM_MAX + SM_REALLOC
 

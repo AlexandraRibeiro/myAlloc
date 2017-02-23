@@ -6,19 +6,20 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 11:30:16 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 14:47:09 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 static char *create_100_tinies(char *t)
 {
 	int i = 0;
-	t = (char *)malloc(TI_MAX);
+	t = (char *)malloc(128);
 	printf("(debug main) ADDR ptr TINY = %p\n", t);
-		write(1, "boucle\n", 7);
-	while (i < (TI_PADDING - 1))
+	while (i < (120 - 1))
 	{
 		t[i] = 'T';
 		i++;
@@ -33,10 +34,10 @@ static char *create_100_tinies(char *t)
 static char *create_100_smalls(char *s)
 {
 	int i = 0;
-	s = (char *)malloc(SM_MAX);
+	s = (char *)malloc(1024);
 	printf("(debug main) ADDR ptr SMALL = %p\n", s);
 
-	while (i < (SM_PADDING - 1))
+	while (i < (1020 - 1))
 	{
 		s[i] = 'S';
 		i++;
@@ -73,11 +74,6 @@ int		main()
 	char 	*l = NULL;
 	int 	i = 1;
 
-printf("_________________________________________________________________\n");
-printf("sizeof t_header = %zu\n",sizeof(t_header));
-printf("sizeof t_header_lg = %zu\n", sizeof(t_header_lg));
-printf("sizeof t_block = %zu\n",sizeof(t_block));
-printf("_________________________________________________________________\n\n");
 
 	while (i < 110)
 	{
@@ -90,12 +86,12 @@ printf("_________________________________________________________________\n\n");
 		if (i == 50)
 		{
 			free(s);
-			show_alloc_map();
+			// show_alloc_map();
 		}
 		i++;
 	}
 
-	show_alloc_map();
+	// show_alloc_map();
 
 	return (0);
 }

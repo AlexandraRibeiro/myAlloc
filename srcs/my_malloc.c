@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 11:26:25 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 15:38:45 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,5 +297,6 @@ void	*malloc(size_t size)
 		ft_putstr_fd("ERROR MALLOC : size <= 0", 2);
 		return (NULL);
 	}
+	// show_alloc_map();
 	return (parse_malloc_size(size));
 }

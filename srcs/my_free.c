@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 11:26:34 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 14:33:39 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,13 @@ static void		search_ptr(void **ptr)
 	if (search_ptr_ts(ptr) == 1)
 		return ;
 	/*si Ici il n'a pas trouvé le ptr */
-	ft_putstr_fd("FREE / NOTIFY : void *ptr not found", 2);
+	// ft_putstr_fd("FREE / NOTIFY : void *ptr not found", 2);
 	return ;
 }
 
-/*changer le nom une fois la librairie faite */
 void			free(void *ptr)
 {
 	// mutex
-	ft_putstr_fd("--------------------------------------------------\n", 1);
 	if (ptr == NULL)
 		return ;
 	if (glob.bonus_secu == 1)
