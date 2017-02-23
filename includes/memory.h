@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 20:36:46 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/23 11:27:10 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ extern t_map glob;
 
 
 /*_______ MY MALLOC __________________________________________________________*/
-void				*my_malloc(size_t size); //changer le nom
+void				*malloc(size_t size);
 void				*header_init(t_header **addr, int cas, size_t size);
 size_t				get_size(int cas);
 
 /*_______ MY FREE ____________________________________________________________*/
-void				my_free(void *ptr); //changer le nom
+void				free(void *ptr);
 void				free_header_lg(t_header_lg **head, t_header_lg **previous);
 void 				free_header_ts(t_header **head, t_header **previous);
 
@@ -90,9 +90,9 @@ void 				free_header_ts(t_header **head, t_header **previous);
 // void		show_alloc_mem();
 
 /*_______ LIBFT ______________________________________________________________*/
-void				ft_bzero(void *s, size_t n);
-void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
-void				ft_memdel(void **ap);
+// void				ft_bzero(void *s, size_t n);
+// void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
+// void				ft_memdel(void **ap);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 19:48:14 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/23 11:26:34 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static void		search_ptr(void **ptr)
 }
 
 /*changer le nom une fois la librairie faite */
-void			my_free(void *ptr)
+void			free(void *ptr)
 {
 	// mutex
 	ft_putstr_fd("--------------------------------------------------\n", 1);

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 16:01:58 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/23 11:30:16 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char *create_100_tinies(char *t)
 {
 	int i = 0;
-	t = (char *)my_malloc(TI_MAX);
+	t = (char *)malloc(TI_MAX);
 	printf("(debug main) ADDR ptr TINY = %p\n", t);
 		write(1, "boucle\n", 7);
 	while (i < (TI_PADDING - 1))
@@ -33,7 +33,7 @@ static char *create_100_tinies(char *t)
 static char *create_100_smalls(char *s)
 {
 	int i = 0;
-	s = (char *)my_malloc(SM_MAX);
+	s = (char *)malloc(SM_MAX);
 	printf("(debug main) ADDR ptr SMALL = %p\n", s);
 
 	while (i < (SM_PADDING - 1))
@@ -51,7 +51,7 @@ static char *create_100_smalls(char *s)
 static char *create_100_larges(char *l)
 {
 	int i = 0;
-	l = (char *)my_malloc(8000);
+	l = (char *)malloc(8000);
 	printf("(debug main) ADDR ptr LARGE = %p\n", l);
 
 	while (i < 7999)
@@ -89,7 +89,7 @@ printf("_________________________________________________________________\n\n");
 		l = create_100_larges(l);
 		if (i == 50)
 		{
-			my_free(s);
+			free(s);
 			show_alloc_map();
 		}
 		i++;

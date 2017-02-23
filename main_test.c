@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 20:26:14 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/23 11:29:27 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int		main()
 // **								TEST TINY
 // *******************************************************************************/
 // 	i = 0;
-// 	tiny = (char *)my_malloc(sizeof(char) * 100);
-// 	tiny2 = (char *)my_malloc(sizeof(char) * 80);
-// 	tiny3 = (char *)my_malloc(sizeof(char) * 40);
+// 	tiny = (char *)malloc(sizeof(char) * 100);
+// 	tiny2 = (char *)malloc(sizeof(char) * 80);
+// 	tiny3 = (char *)malloc(sizeof(char) * 40);
 // write(1, "\n-> retour main\n", 16);
 // printf("(debug main) ADDR 1er ptr tiny = %p\n", tiny);
 // printf("(debug main) ADDR 2eme ptr tiny2 = %p, decalage avec tiny = %ld\n", tiny2, tiny2 - tiny);
@@ -113,9 +113,9 @@ int		main()
 // 	*******************************************************************************/
 // 	i = 0;
 //
-// 	small = (char *)my_malloc(sizeof(char) * (TI_MAX + 1));
-// 	small2 = (char *)my_malloc(sizeof(char) * 200);
-// 	small3 = (char *)my_malloc(sizeof(char) * SM_MAX); //SM_MAX
+// 	small = (char *)malloc(sizeof(char) * (TI_MAX + 1));
+// 	small2 = (char *)malloc(sizeof(char) * 200);
+// 	small3 = (char *)malloc(sizeof(char) * SM_MAX); //SM_MAX
 // write(1, "\n-> retour main\n", 16);
 // printf("(debug main) ADDR 1er ptr small = %p\n", small);
 // printf("(debug main) ADDR 2eme ptr small2 = %p, decalage avec small = %ld\n", small2, small2 - small);
@@ -197,9 +197,9 @@ int		main()
 	// printf("sizeof t_header_lg = %zu\n",sizeof(t_header_lg));
 	// printf("_________________________________________________________________\n\n");
 
-		large = (char *)my_malloc(sizeof(char) * 10000);
-		// large2 = (char *)my_malloc(sizeof(char) * 4000);
-		// large3 = (char *)my_malloc(sizeof(char) * 10300);
+		large = (char *)malloc(sizeof(char) * 10000);
+		// large2 = (char *)malloc(sizeof(char) * 4000);
+		// large3 = (char *)malloc(sizeof(char) * 10300);
 	write(1, "\n-> retour main\n", 16);
 	// printf("(debug main) ADDR 1er ptr large = %p\n", large);
 	// printf("(debug main) ADDR 2eme ptr large2 = %p\n", large2);

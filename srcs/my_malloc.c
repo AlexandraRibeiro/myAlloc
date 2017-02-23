@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 20:36:20 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/23 11:26:25 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,7 +284,7 @@ static void *parse_malloc_size(size_t size)
 /******************************************************************************/
 /******************************************************************************/
 //changer le nom de la fonction
-void	*my_malloc(size_t size)
+void	*malloc(size_t size)
 {
 	// mutex
 	if (glob.bonus_secu == 1)
