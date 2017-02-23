@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 17:58:16 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/23 19:25:44 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void				*realloc(void *ptr, size_t size);
 void				ft_putchar_fd(char c, int fd);
 void				ft_putstr_fd(char const *s, int fd);
 void				ft_putnbr_fd(int n, int fd);
+void				*alloc_memcpy(void *dst, const void *src, size_t n);
 
 /*_______ BONUS ______________________________________________________________*/
 int					verif_secu(size_t secu, void *ptr);
