@@ -1,4 +1,5 @@
 #include "memory.h"
+#include <stdlib.h>
 
 int		main()
 {
@@ -12,7 +13,7 @@ int		main()
 		addr[0] = 42;
 		i++;
 	}
-	show_alloc_map();
+	//show_alloc_map();
 	// my_free(addr);
 
 	return (0);

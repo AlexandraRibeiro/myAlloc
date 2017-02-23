@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/02/23 11:36:34 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/02/23 11:46:28 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ ifeq ($(HOSTTYPE),)
 	HOSTTYPE := $(shell uname -m)_$(shell uname -s)
 endif
 
-NAME = libft_malloc_$HOSTTYPE.so
+NAME = libft_malloc_$(HOSTTYPE).so
 LINK_NAME = libft_malloc.so
 
 CFLAGS = -Wall -Werror -Wextra
@@ -35,7 +35,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	gcc -shared -o $(NAME) $(OBJ)
-	ln -is $(NAME) $(LINK_NAME)
+	ln -s $(NAME) $(LINK_NAME)
 
 %.o: %.c
 	gcc -o $@ -c $< $(CFLAGS) -I./includes
@@ -44,7 +44,8 @@ clean:
 	rm -rf $(OBJ)
 
 fclean:clean
-	rm -rf $(NAME) $(LINK_NAME)
+	rm -rf $(NAME)
+	rm -rf $(LINK_NAME)
 
 re: fclean all
 
