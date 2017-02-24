@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 17:18:17 by Alex             ###   ########.fr       */
+/*   Updated: 2017/02/24 15:08:42 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,21 @@ static int	print_alloc(int i, void *block, int total)
 }
 
 /* ajouter verif secu pour eviter les segfault */
-static	void read_ts_alloc(int total)
+static void read_ts_alloc(t_header **first, int total, int cas)
 {
 	t_header	*h;
 	t_block		*b;
 	int			i;
 
-	h = glob.tiny_small;
+	h = *first;
 	while (h != NULL)
 	{
 		ft_putstr_fd("__________________________________________________\n", 1);
 		i = 0;
 		b = h->last_block;
-		if (h->padding == TI_PADDING)
+		if (cas == TI_PADDING)
 			ft_putstr_fd("\n TINY MAP", 1);
-		else if (h->padding == SM_PADDING)
+		else if (cas == SM_PADDING)
 			ft_putstr_fd("\n SMALL MAP", 1);
 		while (b != NULL)
 		{
@@ -86,16 +86,21 @@ static int	read_large_alloc(int total)
 
 void 	show_alloc_map()
 {
+	// int	total_map_tiny;
+	// int	total_map_small;
 	int	total_map_large;
 
-	if (glob.tiny_small != NULL)
-		read_ts_alloc(0);
+	// total_map_tiny = 0;
+	// total_map_small = 0;
+	total_map_large = 0;
+	if (glob.tiny != NULL)
+		read_ts_alloc(&(glob.tiny), 0, TI_PADDING);
+	if (glob.small != NULL)
+		read_ts_alloc(&(glob.small), 0, SM_PADDING);
 	if (glob.large != NULL)
-	{
 		total_map_large = read_large_alloc(0);
-		ft_putstr_fd("__________________________________________________\n", 1);
-		ft_putstr_fd(" \n ********** LARGE MAP CREATED = ", 1);
-		ft_putnbr_fd(total_map_large, 1);
-	}
+	ft_putstr_fd("__________________________________________________\n", 1);
+	ft_putstr_fd(" \n ********** LARGE MAP CREATED = ", 1);
+	ft_putnbr_fd(total_map_large, 1);
 
 }

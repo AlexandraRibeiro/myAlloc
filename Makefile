@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/02/23 14:17:05 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/02/24 13:28:08 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,9 +23,10 @@ SRC = 	bonus_show_map.c \
 		ft_putchar_fd.c \
 		ft_putnbr_fd.c \
 		ft_putstr_fd.c \
+		my_free_munmap.c \
 		my_free.c \
 		my_malloc.c \
-		tools.c
+		verif_secu.c
 
 SRCS = $(addprefix srcs/, $(SRC))
 

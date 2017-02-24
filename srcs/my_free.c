@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 18:40:07 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 15:09:50 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-static void		free_ts(t_block	**bk, t_header **hd, t_header **pv)
+static void		free_ts(t_block	**bk, t_header **hd, t_header **pv, int cas)
 {
 	t_header	*h;
 	t_block		*b;
@@ -23,37 +23,52 @@ static void		free_ts(t_block	**bk, t_header **hd, t_header **pv)
 	if (b->req_size == 0)
 		return;
 	h->count_alloc++;
-	if (h->count_alloc > h->max_alloc)
-		free_header_ts(hd, pv);
+ft_putnbr_fd(h->count_alloc, 1);
+ft_putnbr_fd(h->max_alloc, 1);
+ft_putchar_fd('\n',1);
+show_alloc_map();
+	if (h->count_alloc == h->max_alloc)
+	{
+		if (*pv == NULL && h->next == NULL)
+		{
+ft_putstr_fd("\nici\n", 1);
+			b->req_size = 0;
+			return ;
+		}
+		free_head_ts(hd, pv, cas);
+	}
 	else
 		b->req_size = 0;
 }
 
 
-static void		search_ptr_ts(void **ptr, t_block *b, t_header *prev)
+static int		search_ptr_ts(int cas, void **ptr, t_block *b, t_header *prev)
 {
 	t_header *ts;
 
-	ts = glob.tiny_small;
+	ts = glob.small;
+	if (cas == TI_PADDING)
+		ts = glob.tiny;
 	while (ts != NULL)
 	{
 		if (verif_secu(ts->secu_verif, (void *)ts) == 1)
-			return ;
+			return (0) ;
 		b = ts->last_block;
 		while (b != NULL)
 		{
 			if (verif_secu(b->secu_verif, (void *)b) == 1)
-				return ;
+				return (0);
 			if (b->ptr == *ptr)
 			{
-				free_ts(&b, &ts, &prev);
-				return ;
+				free_ts(&b, &ts, &prev, cas);
+				return (0);
 			}
 			b = b->previous;
 		}
 		prev = ts;
 		ts = ts->next;
 	}
+	return (1);
 }
 
 static void		search_ptr_free(void **ptr)
@@ -69,14 +84,14 @@ static void		search_ptr_free(void **ptr)
 			return;
 		if (l->ptr == *ptr)
 		{
-			free_header_lg(&l, &prev);
+			free_head_lg(&l, &prev);
 			return;
 		}
 		prev = l;
 		l = l->next;
 	}
-	search_ptr_ts(ptr, NULL, NULL);
-	return ;
+	if (search_ptr_ts(SM_PADDING, ptr, NULL, NULL) == 1)
+		search_ptr_ts(TI_PADDING, ptr, NULL, NULL);
 }
 
 void			free(void *ptr)
@@ -90,4 +105,5 @@ void			free(void *ptr)
 		return ;
 	}
 	search_ptr_free(&ptr);
+	// show_alloc_map();
 }

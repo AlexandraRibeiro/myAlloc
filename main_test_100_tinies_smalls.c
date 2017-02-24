@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 14:47:09 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 13:43:42 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ int		main()
 		s = create_100_smalls(s);
 		printf("\n\033[35;1mi = %d\033[0m\n", i);
 		l = create_100_larges(l);
-		if (i == 50)
-		{
-			free(s);
-			// show_alloc_map();
-		}
+		// if (i == 50)
+		// {
+		// 	free(s);
+		// 	// show_alloc_map();
+		// }
 		i++;
 	}
 

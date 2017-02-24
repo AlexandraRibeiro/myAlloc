@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 17:55:44 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 14:49:32 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,15 @@ size_t	get_size(int cas)
 		req = sizeof(t_header) + (sizeof(t_block) * 100) + (cas * 100);
 	else
 		req = sizeof(t_header_lg) + cas + (cas * LG_REALLOC);
-
-	// printf("\nsize requested = %zu", req);
 	if (req % page_size != 0)
-	{
 		i = (req / page_size) + 1;
-	// printf("\n(debug) VALEUR +1 : multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
-	}
 	else
-	{
 		i = req / page_size;
-	// printf("\n(debug) VALEUR juste: multiple 4096 : i = %zu, i*4096 = %zu\n", i, i * page_size);
-	}
+// ft_putstr_fd("\npour cas = ", 1);
+// ft_putnbr_fd(cas, 1);
+// ft_putstr_fd("\nmultiple 4096 = ", 1);
+// ft_putnbr_fd(i, 1);
+// ft_putchar_fd('\n', 1);
 	return (i * page_size);
 }
 
@@ -117,7 +114,6 @@ static void		*search_empty_block(int cas, t_header **page, size_t size)
 */
 static void		*search_place(t_header **first, int cas, size_t size)
 {
-	// printf("\n(debug) POSITION programme -> search_place\n");
 	t_header *tmp;
 
 	tmp = *first;
@@ -129,11 +125,9 @@ static void		*search_place(t_header **first, int cas, size_t size)
 			glob.bonus_secu = 1;
 			return (NULL);
 		}
-		if (tmp->padding == cas && tmp->count_alloc > 1)
+		if (tmp->count_alloc > 0)
 		{
-// printf("\nok padding\n");
 			tmp->count_alloc--;
-		// printf("\n(debug) VALEUR count_alloc = %d\n", tmp->count_alloc);
 			return (search_empty_block(cas, &tmp, size));
 		}
 		else if (tmp->next == NULL)
@@ -149,19 +143,16 @@ static void		*search_place(t_header **first, int cas, size_t size)
 /******************************************************************************/
 static void	*init_1_block(t_header **page, size_t size)
 {
-	// printf("\n(debug) POSITION programme -> init_1_block\n\n");
 	t_block		*b;
 	t_header 	*h;
 
 	h = *page;
 	b = h->last_block;
-	// printf("(debug) ADDR last_block = %p, decalage avec addr page = %ld\n", b, (void *)b - (void *)h);
-
-
 	b->secu_verif = (size_t)b;
 	b->ptr = (void *)b + (sizeof(t_block) * h->count_alloc);
 	b->req_size = size;
 	b->previous = NULL;
+	h->count_alloc--;
 	return (b->ptr);
 }
 
@@ -174,27 +165,21 @@ void		*header_init(t_header **first, int cas, size_t size)
 	t_header	*f;
 
 	//getrlimit
-	// printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
+	ft_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP TINY_SMALL---------------------\n", 1);
 	h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
-	// printf("\nMMAP size TINY SMALL = %zu\n", get_size(cas));
-	// printf("(debug) ADDR page MMAP = %p\n", h);
-	// printf("\n---------------------------------------------------------\033[0m\n\n");
-
-
 	f = *first;
-
 	h->secu_verif = (size_t)h;
-	h->padding = cas;
 	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
 	h->count_alloc = h->max_alloc;
 	h->last_block =  (void *)h + sizeof(t_header);
-
-	// printf("(debug) h->count_alloc = %d", h->count_alloc);
-
+ft_putnbr_fd(h->count_alloc, 1);
 	if (*first == NULL)
 	{
 		h->next = NULL;
-		glob.tiny_small = h;
+		if (cas == TI_PADDING)
+			glob.tiny = h;
+		else if (cas == SM_PADDING)
+			glob.small = h;
 	}
 	else
 	{
@@ -202,11 +187,7 @@ void		*header_init(t_header **first, int cas, size_t size)
 			f = f->next;
 		f->next = h;
 		h->next = NULL;
-	// printf("\n(debug) ADDR current page = %p\n", h);
 	}
-
-	// printf("\n(debug) ADDR glob.tiny_small = %p\n", h);
-
 	return (init_1_block(&h, size));
 }
 
@@ -222,22 +203,14 @@ static void		*header_lg_init(t_header_lg **first, size_t size)
 	size_t		setsize;
 
 	setsize = get_size((int)size);
-
 	//getrlimit
-	// printf("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n");
+	ft_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n",1);
 	h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
-	// printf("MMAP size LG = %zu", setsize);
-	// printf("(debug) ADDR page MMAP = %p\n", h);
-	// printf("\n---------------------------------------------------------\033[0m\n\n");
-
 	f = *first;
-
 	h->secu_verif = (size_t)h;
 	h->padding = (int)setsize;
 	h->req_size = size;
 	h->ptr = (void *)h + sizeof(t_header_lg);
-
-
 	if (*first == NULL)
 	{
 		h->next = NULL;
@@ -249,11 +222,7 @@ static void		*header_lg_init(t_header_lg **first, size_t size)
 			f = f->next;
 		f->next = h;
 		h->next = NULL;
-	// printf("\n(debug) ADDR current page = %p\n", h);
 	}
-
-	// printf("\n(debug) ADDR glob.large = %p\n", h);
-
 	return (h->ptr);
 }
 
@@ -264,14 +233,14 @@ static void		*header_lg_init(t_header_lg **first, size_t size)
 /******************************************************************************/
 static void *parse_malloc_size(size_t size)
 {
-	if  (size <= TI_MAX && glob.tiny_small == NULL)
-		return (header_init(&(glob.tiny_small), TI_PADDING, size));
-	else if  (size <= TI_MAX && glob.tiny_small != NULL)
-		return (search_place(&(glob.tiny_small), TI_PADDING, size));
-	else if  (size <= SM_MAX && glob.tiny_small == NULL)
-		return (header_init(&(glob.tiny_small), SM_PADDING, size));
-	else if  (size <= SM_MAX && glob.tiny_small != NULL)
-		return (search_place(&(glob.tiny_small), SM_PADDING, size));
+	if  (size <= TI_MAX && glob.tiny == NULL)
+		return (header_init(&(glob.tiny), TI_PADDING, size));
+	else if  (size <= TI_MAX && glob.tiny != NULL)
+		return (search_place(&(glob.tiny), TI_PADDING, size));
+	else if  (size <= SM_MAX && glob.small == NULL)
+		return (header_init(&(glob.small), SM_PADDING, size));
+	else if  (size <= SM_MAX && glob.small != NULL)
+		return (search_place(&(glob.small), SM_PADDING, size));
 	else if (size > SM_MAX)
 		return (header_lg_init(&(glob.large), size));
 	else

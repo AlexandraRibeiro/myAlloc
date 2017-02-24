@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 19:25:44 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 15:09:37 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ typedef struct		s_block
 typedef struct		s_header
 {
 	size_t				secu_verif; // verifie si les donnees n'ont pas ete alteree
-	int					padding;
 	int					max_alloc;
 	int					count_alloc;
 	void				*last_block; // debut de la structure pour les blocks (pile)
@@ -62,7 +61,8 @@ typedef struct		s_header_lg
 typedef struct		s_map
 {
 	int					bonus_secu;
-	t_header			*tiny_small;
+	t_header			*tiny;
+	t_header			*small;
 	t_header_lg			*large;
 }					t_map;
 
@@ -80,8 +80,8 @@ size_t				get_size(int cas);
 
 /*_______ MY FREE ____________________________________________________________*/
 void				free(void *ptr);
-void				free_header_lg(t_header_lg **head, t_header_lg **previous);
-void 				free_header_ts(t_header **head, t_header **previous);
+void				free_head_lg(t_header_lg **head, t_header_lg **previous);
+void 				free_head_ts(t_header **head, t_header **previous, int cas);
 
 /*_______ MY REALLOC _________________________________________________________*/
 void				*realloc(void *ptr, size_t size);
