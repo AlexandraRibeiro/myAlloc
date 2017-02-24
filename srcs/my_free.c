@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 15:09:50 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 15:19:17 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ static void		search_ptr_free(void **ptr)
 
 void			free(void *ptr)
 {
+// ft_putstr_fd("\n APPEL FREE\n", 1);
 	// mutex
 	if (ptr == NULL)
 		return ;
@@ -106,4 +107,5 @@ void			free(void *ptr)
 	}
 	search_ptr_free(&ptr);
 	// show_alloc_map();
+ft_putstr_fd("\n ___________________________________________\n", 1);
 }
