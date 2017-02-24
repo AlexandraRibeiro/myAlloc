@@ -1,39 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memccpy.c                                       :+:      :+:    :+:   */
+/*   oc_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/26 10:17:22 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/08 13:59:43 by aribeiro         ###   ########.fr       */
+/*   Created: 2015/11/25 15:42:50 by aribeiro          #+#    #+#             */
+/*   Updated: 2017/02/24 16:30:31 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void				*ft_memccpy(void *dst, const void *src, int c, size_t n)
+void	oc_bzero(void *s, size_t n)
 {
-	unsigned char	*destcpy;
-	unsigned char	*srccpy;
-	unsigned char	c2;
+	char *scpy;
 
-	destcpy = (unsigned char *)dst;
-	srccpy = (unsigned char *)src;
-	c2 = c;
-	while (n > 0 && *srccpy != c2)
+	scpy = s;
+	while (n != 0)
 	{
-		*destcpy = *srccpy;
-		destcpy++;
-		srccpy++;
+		*scpy = '\0';
+		scpy++;
 		n--;
 	}
-	if (*srccpy == c2)
-	{
-		*destcpy = *srccpy;
-		destcpy++;
-		return (destcpy);
-	}
-	else
-		return (NULL);
+	return ;
 }

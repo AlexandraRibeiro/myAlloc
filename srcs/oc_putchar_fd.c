@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_bzero.c                                         :+:      :+:    :+:   */
+/*   oc_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/25 15:42:50 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/08 14:02:03 by aribeiro         ###   ########.fr       */
+/*   Created: 2015/11/29 17:06:44 by aribeiro          #+#    #+#             */
+/*   Updated: 2017/02/24 16:30:57 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void	ft_bzero(void *s, size_t n)
+void	oc_putchar_fd(char c, int fd)
 {
-	char *scpy;
-
-	scpy = s;
-	while (n != 0)
-	{
-		*scpy = '\0';
-		scpy++;
-		n--;
-	}
-	return ;
+	write(fd, &c, 1);
 }

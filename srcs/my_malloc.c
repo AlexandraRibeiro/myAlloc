@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 15:21:24 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 18:04:25 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-t_map glob;
+t_maps glob;
 
 
 
@@ -37,11 +37,11 @@ size_t	get_size(int cas)
 		i = (req / page_size) + 1;
 	else
 		i = req / page_size;
-// ft_putstr_fd("\npour cas = ", 1);
-// ft_putnbr_fd(cas, 1);
-// ft_putstr_fd("\nmultiple 4096 = ", 1);
-// ft_putnbr_fd(i, 1);
-// ft_putchar_fd('\n', 1);
+// oc_putstr_fd("\npour cas = ", 1);
+// oc_putnbr_fd(cas, 1);
+// oc_putstr_fd("\nmultiple 4096 = ", 1);
+// oc_putnbr_fd(i, 1);
+// oc_putchar_fd('\n', 1);
 	return (i * page_size);
 }
 
@@ -60,7 +60,7 @@ static void		*create_block(int cas, t_header **page, size_t size)
 	if (before->secu_verif != (size_t)before)
 	{
 		/*nettoyer la memoire*/
-		ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 		return (NULL);
 	}
 	current = (void *)before + sizeof(t_block);
@@ -119,12 +119,8 @@ static void		*search_place(t_header **first, int cas, size_t size)
 	tmp = *first;
 	while (1)
 	{
-		if (tmp->secu_verif != (size_t)tmp)
-		{
-			ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-			glob.bonus_secu = 1;
+		if (verif_secu(tmp->secu_verif, (void *)tmp) == 1)
 			return (NULL);
-		}
 		if (tmp->count_alloc > 0)
 		{
 			tmp->count_alloc--;
@@ -165,14 +161,15 @@ void		*header_init(t_header **first, int cas, size_t size)
 	t_header	*f;
 
 	//getrlimit
-	ft_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP TINY_SMALL---------------------\n", 1);
+oc_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP TINY_SMALL---------------------\n", 1);
 	h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
 	h->count_alloc = h->max_alloc;
 	h->last_block =  (void *)h + sizeof(t_header);
-ft_putnbr_fd(h->count_alloc, 1);
+oc_putnbr_fd(h->count_alloc, 1);
+oc_putstr_fd(" allocs possibles\n\n\033[0m",1);
 	if (*first == NULL)
 	{
 		h->next = NULL;
@@ -204,11 +201,13 @@ static void		*header_lg_init(t_header_lg **first, size_t size)
 
 	setsize = get_size((int)size);
 	//getrlimit
-	ft_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP---------------------\n",1);
+oc_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP LARGE---------------------\n",1);
 	h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->padding = (int)setsize;
+oc_putnbr_fd(h->padding, 1);
+oc_putstr_fd("\n\n\033[0m",1);
 	h->req_size = size;
 	h->ptr = (void *)h + sizeof(t_header_lg);
 	if (*first == NULL)
@@ -257,14 +256,14 @@ void	*malloc(size_t size)
 {
 	// mutex
 	// show_alloc_map();
-	if (glob.bonus_secu == 1)
+	if (glob.secu == 1)
 	{
-		ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 		return (NULL);
 	}
 	if (size <= 0)
 	{
-		ft_putstr_fd("ERROR MALLOC : size <= 0", 2);
+		oc_putstr_fd("ERROR MALLOC : size <= 0", 2);
 		return (NULL);
 	}
 	// show_alloc_map();

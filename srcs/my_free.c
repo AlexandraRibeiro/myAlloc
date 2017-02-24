@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 15:19:17 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 18:02:47 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,10 @@ static void		free_ts(t_block	**bk, t_header **hd, t_header **pv, int cas)
 	if (b->req_size == 0)
 		return;
 	h->count_alloc++;
-ft_putnbr_fd(h->count_alloc, 1);
-ft_putnbr_fd(h->max_alloc, 1);
-ft_putchar_fd('\n',1);
-show_alloc_map();
 	if (h->count_alloc == h->max_alloc)
 	{
 		if (*pv == NULL && h->next == NULL)
 		{
-ft_putstr_fd("\nici\n", 1);
 			b->req_size = 0;
 			return ;
 		}
@@ -96,16 +91,15 @@ static void		search_ptr_free(void **ptr)
 
 void			free(void *ptr)
 {
-// ft_putstr_fd("\n APPEL FREE\n", 1);
+// oc_putstr_fd("\n APPEL FREE\n", 1);
 	// mutex
 	if (ptr == NULL)
 		return ;
-	if (glob.bonus_secu == 1)
+	if (glob.secu == 1)
 	{
-		ft_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		oc_putstr_fd("MALLOC / NOTIFY : data becomes corrupted", 2);
 		return ;
 	}
 	search_ptr_free(&ptr);
 	// show_alloc_map();
-ft_putstr_fd("\n ___________________________________________\n", 1);
 }

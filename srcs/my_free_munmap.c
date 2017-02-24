@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 15:09:35 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 16:29:29 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_head_lg(t_header_lg **head, t_header_lg **previous)
 	else
 		prev->next = tmp->next;
 	if (munmap((void *)tmp, tmp->padding) == -1)
-		ft_putstr_fd("ERROR MUNMAP()", 2);
+		oc_putstr_fd("ERROR MUNMAP()", 2);
 }
 
 void 	free_head_ts(t_header **head, t_header **previous, int cas)
@@ -45,5 +45,5 @@ void 	free_head_ts(t_header **head, t_header **previous, int cas)
 	else
 		prev->next = tmp->next;
 	if (munmap((void *)tmp, setsize) == -1)
-		ft_putstr_fd("ERROR MUNMAP()", 2);
+		oc_putstr_fd("ERROR MUNMAP()", 2);
 }

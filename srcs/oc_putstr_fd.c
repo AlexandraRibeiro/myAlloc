@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   oc_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/11 14:11:43 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/22 16:12:59 by Alex             ###   ########.fr       */
+/*   Created: 2015/11/30 15:26:46 by aribeiro          #+#    #+#             */
+/*   Updated: 2017/02/24 16:31:10 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void	ft_putnbr_fd(int n, int fd)
+void	oc_putstr_fd(char const *s, int fd)
 {
-	unsigned int i;
+	int i;
 
-	if (n < 0)
+	i = 0;
+	while (s[i] != '\0')
 	{
-		i = -n;
-		ft_putchar_fd('-', fd);
+		oc_putchar_fd((char)s[i], fd);
+		i++;
 	}
-	else
-		i = n;
-	if (i >= 10)
-	{
-		ft_putnbr_fd(i / 10, fd);
-		ft_putnbr_fd(i % 10, fd);
-	}
-	else
-		ft_putchar_fd(i + '0', fd);
 }

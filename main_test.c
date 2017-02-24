@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/23 11:29:27 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/24 16:31:34 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ int		main()
 // 	tiny3[++i] = '\0';
 //
 //
-// 	ft_putstr_fd(tiny, 1);
-// 	ft_putstr_fd(tiny2, 1);
-// 	ft_putstr_fd(tiny3, 1);
+// 	oc_putstr_fd(tiny, 1);
+// 	oc_putstr_fd(tiny2, 1);
+// 	oc_putstr_fd(tiny3, 1);
 //
 // 	printf("(debug main) ADDR 1er ptr tiny = %p\n", tiny);
 // 	printf("(debug main) ADDR 2eme ptr tiny2 = %p, decalage avec tiny = %ld\n", tiny2, tiny2 - tiny);
@@ -103,9 +103,9 @@ int		main()
 // 	tiny[i] = '\n';
 // 	tiny[++i] = '\0';
 //
-// 	ft_putstr_fd(tiny, 1);
-// 	ft_putstr_fd(tiny2, 1);
-// 	ft_putstr_fd(tiny3, 1);
+// 	oc_putstr_fd(tiny, 1);
+// 	oc_putstr_fd(tiny2, 1);
+// 	oc_putstr_fd(tiny3, 1);
 //
 //
 // 	/*******************************************************************************
@@ -149,9 +149,9 @@ int		main()
 // 	small3[++i] = '\0';
 //
 //
-// 	ft_putstr_fd(small, 1);
-// 	ft_putstr_fd(small2, 1);
-// 	ft_putstr_fd(small3, 1);
+// 	oc_putstr_fd(small, 1);
+// 	oc_putstr_fd(small2, 1);
+// 	oc_putstr_fd(small3, 1);
 //
 // 	printf("(debug main) ADDR 1er ptr small = %p\n", small);
 // 	printf("(debug main) ADDR 2eme ptr small2 = %p, decalage avec small = %ld\n", small2, small2 - small);
@@ -184,9 +184,9 @@ int		main()
 // 	small[i] = '\n';
 // 	small[++i] = '\0';
 //
-// 	ft_putstr_fd(small, 1);
-// 	ft_putstr_fd(small2, 1);
-// 	ft_putstr_fd(small3, 1);
+// 	oc_putstr_fd(small, 1);
+// 	oc_putstr_fd(small2, 1);
+// 	oc_putstr_fd(small3, 1);
 //
 
 	/*******************************************************************************
@@ -233,9 +233,9 @@ int		main()
 		// large3[++i] = '\0';
 
 
-		ft_putstr_fd(large, 1);
-		// ft_putstr_fd(large2, 1);
-		// ft_putstr_fd(large3, 1);
+		oc_putstr_fd(large, 1);
+		// oc_putstr_fd(large2, 1);
+		// oc_putstr_fd(large3, 1);
 
 		show_alloc_map();
 		// my_free((void *)large);
