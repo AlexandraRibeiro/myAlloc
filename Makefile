@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/02/24 16:47:23 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/02/27 18:39:11 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ LINK_NAME = libft_malloc.so
 
 CFLAGS = -Wall -Werror -Wextra
 
-SRC = 	bonus_show_map.c \
+SRC = 	my_free_all.c \
 		my_free_munmap.c \
 		my_free.c \
 		my_malloc.c \
@@ -28,6 +28,7 @@ SRC = 	bonus_show_map.c \
 		oc_putchar_fd.c \
 		oc_putnbr_fd.c \
 		oc_putstr_fd.c \
+		show_map.c \
 		verif_secu.c
 
 SRCS = $(addprefix srcs/, $(SRC))

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bonus_show_map.c                                   :+:      :+:    :+:   */
+/*   show_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 16:29:08 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/27 20:08:26 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,20 +86,28 @@ static int	read_large_alloc(int total)
 
 void 	show_alloc_map()
 {
-	// int	total_map_tiny;
-	// int	total_map_small;
 	int	total_map_large;
 
-	// total_map_tiny = 0;
-	// total_map_small = 0;
 	total_map_large = 0;
+	if (glob.secu == 1)
+	{
+		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		return ;
+	}
+	if (glob.tiny == NULL && glob.small == NULL && glob.large == NULL)
+	{
+		oc_putstr_fd("\n************ NO ALLOCATIONS\n", 2);
+		return ;
+	}
 	if (glob.tiny != NULL)
 		read_ts_alloc(&(glob.tiny), 0, TI_PADDING);
 	if (glob.small != NULL)
 		read_ts_alloc(&(glob.small), 0, SM_PADDING);
 	if (glob.large != NULL)
+	{
 		total_map_large = read_large_alloc(0);
-	oc_putstr_fd("__________________________________________________\n", 1);
-	oc_putstr_fd(" \n ********** LARGE MAP CREATED = ", 1);
-	oc_putnbr_fd(total_map_large, 1);
+		oc_putstr_fd("__________________________________________________\n", 1);
+		oc_putstr_fd("\n************ LARGE MAP CREATED = ", 1);
+		oc_putnbr_fd(total_map_large, 1);
+	}
 }

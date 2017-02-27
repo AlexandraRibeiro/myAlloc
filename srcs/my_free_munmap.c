@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 16:29:29 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/27 18:34:01 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@ void 	free_head_ts(t_header **head, t_header **previous, int cas)
 		glob.tiny = tmp->next;
 	else if (prev == NULL && tmp->next != NULL && cas == SM_PADDING)
 		glob.small = tmp->next;
+	else if (prev == NULL && tmp->next == NULL && cas == TI_PADDING)
+		glob.tiny = NULL;
+	else if (prev == NULL && tmp->next == NULL && cas == SM_PADDING)
+		glob.small = NULL;
 	else
 		prev->next = tmp->next;
 	if (munmap((void *)tmp, setsize) == -1)

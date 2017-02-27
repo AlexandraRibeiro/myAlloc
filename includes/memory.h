@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 18:02:26 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/27 18:38:28 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void 				free_head_ts(t_header **head, t_header **previous, int cas);
 void				*realloc(void *ptr, size_t size);
 
 /*_______ Show allocation memory _____________________________________________*/
-// void		show_alloc_mem();
+// void				show_alloc_mem();
 
 /*_______ TOOLS ______________________________________________________________*/
 // void				oc_bzero(void *s, size_t n);
@@ -97,12 +97,10 @@ void				oc_putchar_fd(char c, int fd);
 void				oc_putstr_fd(char const *s, int fd);
 void				oc_putnbr_fd(int n, int fd);
 void				*oc_memcpy(void *dst, const void *src, size_t n);
+int					verif_secu(size_t secu, void *ptr);
 
 /*_______ BONUS ______________________________________________________________*/
-int					verif_secu(size_t secu, void *ptr);
 void 				show_alloc_map();
-
-// free_all (libere tous les pointeurs)
-// free_all_secure (libere les ptr et reinitialise la memoire a 0 avec bzero)
+void 				free_all();
 
 #endif
