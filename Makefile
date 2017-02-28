@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/02/27 18:39:11 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/02/28 19:03:34 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,12 @@ SRC = 	my_free_all.c \
 		my_realloc.c \
 		oc_memcpy.c \
 		oc_putchar_fd.c \
+		oc_puthexa.c \
 		oc_putnbr_fd.c \
 		oc_putstr_fd.c \
 		show_map.c \
+		show_mem_1.c \
+		show_mem_2.c \
 		verif_secu.c
 
 SRCS = $(addprefix srcs/, $(SRC))

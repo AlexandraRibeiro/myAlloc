@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 18:04:25 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/28 18:00:51 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,6 @@
 
 t_maps glob;
 
-
-
-/******************************************************************************/
-/******************************************************************************/
 /*
 ** mapped in multiples of the page size
 */
@@ -37,17 +33,9 @@ size_t	get_size(int cas)
 		i = (req / page_size) + 1;
 	else
 		i = req / page_size;
-// oc_putstr_fd("\npour cas = ", 1);
-// oc_putnbr_fd(cas, 1);
-// oc_putstr_fd("\nmultiple 4096 = ", 1);
-// oc_putnbr_fd(i, 1);
-// oc_putchar_fd('\n', 1);
 	return (i * page_size);
 }
 
-
-/******************************************************************************/
-/******************************************************************************/
 static void		*create_block(int cas, t_header **page, size_t size)
 {
 	t_header	*h;
@@ -59,32 +47,19 @@ static void		*create_block(int cas, t_header **page, size_t size)
 
 	if (before->secu_verif != (size_t)before)
 	{
-		/*nettoyer la memoire*/
 		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 		return (NULL);
 	}
 	current = (void *)before + sizeof(t_block);
-	// printf("(debug) ADDR block current = %p, decalage avec addr block_before = %ld\n", current, (void *)current - (void *)before);
-
 	current->secu_verif = (size_t)current;
-
-// printf("(debug) BONUS SECU size_t secu_verif = %zu", current->secu_verif);
-
 	current->ptr = before->ptr + cas;
 	current->req_size = size;
 	current->previous = before;
+	h->last_block = current;
 
-	h->last_block = current; //rempli comme une pile je change le pointeur du debut
-
-// printf("(debug) ADDR last_block = %p", h->last_block);
 	return (current->ptr);
 }
 
-
-
-
-/******************************************************************************/
-/******************************************************************************/
 static void		*search_empty_block(int cas, t_header **page, size_t size)
 {
 	t_block	*b;
@@ -106,9 +81,6 @@ static void		*search_empty_block(int cas, t_header **page, size_t size)
 	return(create_block(cas, page, size));
 }
 
-
-/******************************************************************************/
-/******************************************************************************/
 /*
 ** Parsing : searching an empty place || create a new page
 */
@@ -133,10 +105,6 @@ static void		*search_place(t_header **first, int cas, size_t size)
 	}
 }
 
-
-
-/******************************************************************************/
-/******************************************************************************/
 static void	*init_1_block(t_header **page, size_t size)
 {
 	t_block		*b;
@@ -152,9 +120,6 @@ static void	*init_1_block(t_header **page, size_t size)
 	return (b->ptr);
 }
 
-
-/******************************************************************************/
-/******************************************************************************/
 void		*header_init(t_header **first, int cas, size_t size)
 {
 	t_header	*h;
@@ -163,6 +128,7 @@ void		*header_init(t_header **first, int cas, size_t size)
 	//getrlimit
 oc_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP TINY_SMALL---------------------\n", 1);
 	h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
+printf("ADDR PAGE = %p\n", h);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas); //total des places libres
@@ -188,11 +154,6 @@ oc_putstr_fd(" allocs possibles\n\n\033[0m",1);
 	return (init_1_block(&h, size));
 }
 
-
-
-
-/******************************************************************************/
-/******************************************************************************/
 static void		*header_lg_init(t_header_lg **first, size_t size)
 {
 	t_header_lg	*h;
@@ -225,11 +186,6 @@ oc_putstr_fd("\n\n\033[0m",1);
 	return (h->ptr);
 }
 
-
-
-
-/******************************************************************************/
-/******************************************************************************/
 static void *parse_malloc_size(size_t size)
 {
 	if  (size <= TI_MAX && glob.tiny == NULL)
@@ -246,16 +202,9 @@ static void *parse_malloc_size(size_t size)
 		return (NULL);
 }
 
-
-
-
-/******************************************************************************/
-/******************************************************************************/
-//changer le nom de la fonction
 void	*malloc(size_t size)
 {
 	// mutex
-	// show_alloc_map();
 	if (glob.secu == 1)
 	{
 		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
@@ -266,6 +215,5 @@ void	*malloc(size_t size)
 		oc_putstr_fd("ERROR MALLOC : size <= 0", 2);
 		return (NULL);
 	}
-	// show_alloc_map();
 	return (parse_malloc_size(size));
 }

@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   oc_puthexa.c                                       :+:      :+:    :+:   */
+/*   show_mem_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/28 12:27:07 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/28 18:04:05 by aribeiro         ###   ########.fr       */
+/*   Created: 2017/02/28 19:03:39 by aribeiro          #+#    #+#             */
+/*   Updated: 2017/02/28 19:25:53 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void 		oc_puthexa(size_t addr)
+void 		addr_blocks(void *header, t_block *b, t_block *prev)
 {
-	size_t i;
+	t_header *h;
 
-	i = 0;
-	if (addr)
+	h = (t_header)header;
+	if (h->count_alloc == h->max_alloc) //page vide pour malloc 1024*1024
+		return;
+	b = h->last_block;
+	while (1)
 	{
-		i = addr / 16;
-		oc_puthexa(i);
-		if (addr % 16 < 10)
-			oc_putchar_fd('0' + addr % 16, 1);
-		else
-			oc_putchar_fd('a' + (addr % 16) - 10, 1);
+		while (b->previous != prev)
+			b = b->previous;
+		printf("\n ADDR du BLOCK = %p", b);
+		prev = b;
+		b = h->last_block;
 	}
-	else
-		oc_putstr_fd("0x", 1);
-	return ;
 }

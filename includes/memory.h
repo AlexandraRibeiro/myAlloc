@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/27 18:38:28 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/28 19:27:56 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MEMORY_H
 
 # include <unistd.h>
-// # include <stdio.h>
+# include <stdio.h>
 # include <sys/mman.h>
 # include <sys/resource.h>
 // # include <stdlib.h>
@@ -87,7 +87,8 @@ void 				free_head_ts(t_header **head, t_header **previous, int cas);
 void				*realloc(void *ptr, size_t size);
 
 /*_______ Show allocation memory _____________________________________________*/
-// void				show_alloc_mem();
+void				show_alloc_mem();
+void 				addr_blocks(void *header, t_block *b, t_block *prev);
 
 /*_______ TOOLS ______________________________________________________________*/
 // void				oc_bzero(void *s, size_t n);
@@ -95,6 +96,7 @@ void				*realloc(void *ptr, size_t size);
 // void				oc_memdel(void **ap);
 void				oc_putchar_fd(char c, int fd);
 void				oc_putstr_fd(char const *s, int fd);
+void 				oc_puthexa(size_t addr);
 void				oc_putnbr_fd(int n, int fd);
 void				*oc_memcpy(void *dst, const void *src, size_t n);
 int					verif_secu(size_t secu, void *ptr);
