@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/28 19:21:34 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/28 22:45:30 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,21 @@
 
 static void 		addr_header(size_t find, size_t f1, size_t f2, size_t f3)
 {
-	if (find == f1)
+	if (find == f1 || find == f2)
 	{
-		// printf("TINY : %p\n", (void *)find);
-		oc_putstr_fd("TINY : ", 1)
+		if (find == f1)
+			oc_putstr_fd("TINY : ", 1);
+		else if (find == f2)
+			oc_putstr_fd("SMALL : ", 1);
 		oc_puthexa(find);
 		oc_putchar_fd('\n', 1);
 		addr_blocks((void *)find, NULL, NULL);
 	}
-	else if (find == f2)
-	{
-		printf("SMALL : %p\n", (void *)find); //afficher tous les blocs
-		// oc_puthexa(find);
-		// oc_putchar_fd('\n', 1);
-	}
 	else if (find == f3)
+	{
 		printf("LARGE : %p\n", (void *)find);
+		print_in_out_addr(NULL, (t_header_lg *)find);
+	}
 }
 
 

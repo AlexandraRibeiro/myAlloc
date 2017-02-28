@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/27 20:08:26 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/02/28 22:17:28 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,6 @@ void 	show_alloc_map()
 		oc_putstr_fd("__________________________________________________\n", 1);
 		oc_putstr_fd("\n************ LARGE MAP CREATED = ", 1);
 		oc_putnbr_fd(total_map_large, 1);
+		oc_putchar_fd('\n', 1);
 	}
 }
