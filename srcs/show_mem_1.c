@@ -6,12 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/28 22:45:30 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/01 13:02:55 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
+//ajouter verfi secu
 
 static void 		addr_header(size_t find, size_t f1, size_t f2, size_t f3)
 {
