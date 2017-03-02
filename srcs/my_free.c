@@ -6,22 +6,21 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 18:02:47 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 14:24:17 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-static void		free_ts(t_block	**bk, t_header **hd, t_header **pv, int cas)
+static void		free_ts(t_block **bk, t_header **hd, t_header **pv, int cas)
 {
 	t_header	*h;
 	t_block		*b;
 
 	h = *hd;
 	b = *bk;
-
 	if (b->req_size == 0)
-		return;
+		return ;
 	h->count_alloc++;
 	if (h->count_alloc == h->max_alloc)
 	{
@@ -36,7 +35,6 @@ static void		free_ts(t_block	**bk, t_header **hd, t_header **pv, int cas)
 		b->req_size = 0;
 }
 
-
 static int		search_ptr_ts(int cas, void **ptr, t_block *b, t_header *prev)
 {
 	t_header *ts;
@@ -47,7 +45,7 @@ static int		search_ptr_ts(int cas, void **ptr, t_block *b, t_header *prev)
 	while (ts != NULL)
 	{
 		if (verif_secu(ts->secu_verif, (void *)ts) == 1)
-			return (0) ;
+			return (0);
 		b = ts->last_block;
 		while (b != NULL)
 		{
@@ -76,11 +74,11 @@ static void		search_ptr_free(void **ptr)
 	while (l != NULL)
 	{
 		if (verif_secu(l->secu_verif, (void *)l) == 1)
-			return;
+			return ;
 		if (l->ptr == *ptr)
 		{
 			free_head_lg(&l, &prev);
-			return;
+			return ;
 		}
 		prev = l;
 		l = l->next;
@@ -91,8 +89,6 @@ static void		search_ptr_free(void **ptr)
 
 void			free(void *ptr)
 {
-// oc_putstr_fd("\n APPEL FREE\n", 1);
-	// mutex
 	if (ptr == NULL)
 		return ;
 	if (glob.secu == 1)
@@ -101,5 +97,4 @@ void			free(void *ptr)
 		return ;
 	}
 	search_ptr_free(&ptr);
-	// show_alloc_map();
 }

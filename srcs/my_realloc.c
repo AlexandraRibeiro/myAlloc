@@ -6,17 +6,17 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:54:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 19:26:40 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 15:07:03 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-static void 	*rea_ts(t_block **bk, t_header **hd, int padding, size_t size)
+static void		*rea_ts(t_block **bk, t_header **hd, int padding, size_t size)
 {
 	t_header	*h;
 	t_block		*b;
-	void 		*ptr;
+	void		*ptr;
 
 	h = *hd;
 	b = *bk;
@@ -41,11 +41,11 @@ static void 	*rea_ts(t_block **bk, t_header **hd, int padding, size_t size)
 	}
 }
 
-static void 	*rea_lg(t_header_lg	**head, t_header_lg	**previous, size_t size)
+static void		*rea_lg(t_header_lg **head, t_header_lg **previous, size_t size)
 {
-	t_header_lg *l;
-	t_header_lg *prev;
-	void 		*ptr;
+	t_header_lg	*l;
+	t_header_lg	*prev;
+	void		*ptr;
 
 	l = *head;
 	prev = *previous;
@@ -64,7 +64,7 @@ static void 	*rea_lg(t_header_lg	**head, t_header_lg	**previous, size_t size)
 	}
 }
 
-static void 	*ptr_ts_rea(void **ptr, t_header *prev, size_t size, int cas)
+static void		*ptr_ts_rea(void **ptr, t_header *prev, size_t size, int cas)
 {
 	t_block		*b;
 	t_header	*ts;
@@ -92,11 +92,11 @@ static void 	*ptr_ts_rea(void **ptr, t_header *prev, size_t size, int cas)
 	return (NULL);
 }
 
-static void 	*search_ptr_rea(void **ptr, size_t size)
+static void		*search_ptr_rea(void **ptr, size_t size)
 {
 	t_header_lg	*l;
 	t_header_lg *prev;
-	void 		*ptr2;
+	void		*ptr2;
 
 	l = glob.large;
 	prev = NULL;
@@ -117,7 +117,7 @@ static void 	*search_ptr_rea(void **ptr, size_t size)
 		return (ptr2);
 }
 
-void 			*realloc(void *ptr, size_t size)
+void			*realloc(void *ptr, size_t size)
 {
 	if (size == 0)
 		return (NULL);
@@ -128,5 +128,5 @@ void 			*realloc(void *ptr, size_t size)
 	}
 	if (ptr == NULL)
 		return (malloc(size));
-	return(search_ptr_rea(&ptr, size));
+	return (search_ptr_rea(&ptr, size));
 }

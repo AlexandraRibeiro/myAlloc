@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/02/28 19:03:34 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/03/02 14:51:29 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC = 	my_free_all.c \
 		my_free_munmap.c \
 		my_free.c \
 		my_malloc.c \
+		my_malloc_headers.c \
 		my_realloc.c \
 		oc_memcpy.c \
 		oc_putchar_fd.c \

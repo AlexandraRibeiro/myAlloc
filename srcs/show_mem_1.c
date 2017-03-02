@@ -6,16 +6,18 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/01 13:02:55 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 15:48:49 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
 //ajouter verfi secu
-
-static void 		addr_header(size_t find, size_t f1, size_t f2, size_t f3)
+static size_t	addr_header(size_t find, size_t f1, size_t f2)
 {
+	size_t	total;
+
+	total = 0;
 	if (find == f1 || find == f2)
 	{
 		if (find == f1)
@@ -24,17 +26,19 @@ static void 		addr_header(size_t find, size_t f1, size_t f2, size_t f3)
 			oc_putstr_fd("SMALL : ", 1);
 		oc_puthexa(find);
 		oc_putchar_fd('\n', 1);
-		addr_blocks((void *)find, NULL, NULL);
+		addr_blocks((void *)find, NULL, NULL, &total);
 	}
-	else if (find == f3)
+	else
 	{
-		printf("LARGE : %p\n", (void *)find);
-		print_in_out_addr(NULL, (t_header_lg *)find);
+		oc_putstr_fd("LARGE : ", 1);
+		oc_puthexa(find);
+		oc_putchar_fd('\n', 1);
+		print_in_out_addr(NULL, (t_header_lg *)find, &total);
 	}
+	return (total);
 }
 
-
-static size_t 		smallest_addr_l(t_header_lg **first, size_t last, size_t *find)
+static void	smallest_addr_l(t_header_lg **first, size_t last, size_t *find)
 {
 	t_header_lg	*h;
 	size_t		f;
@@ -55,11 +59,9 @@ static size_t 		smallest_addr_l(t_header_lg **first, size_t last, size_t *find)
 		}
 	}
 	*find = f;
-	return (f);
 }
 
-
-static size_t 		smallest_addr_ts(t_header **first, size_t last, size_t *find)
+static size_t	smallest_addr_ts(t_header **first, size_t last, size_t *find)
 {
 	t_header	*h;
 	size_t		f;
@@ -83,13 +85,11 @@ static size_t 		smallest_addr_ts(t_header **first, size_t last, size_t *find)
 	return (f);
 }
 
-static void 		sort_addr(size_t f1, size_t f2, size_t f3)
+static void		sort_addr(size_t f1, size_t f2, size_t find, size_t total)
 {
 	size_t last;
-	size_t find;
 
 	last = 0;
-	find = 0;
 	while (1)
 	{
 		if (glob.tiny != NULL)
@@ -97,23 +97,28 @@ static void 		sort_addr(size_t f1, size_t f2, size_t f3)
 		if (glob.small != NULL)
 			f2 = smallest_addr_ts(&(glob.small), last, &find);
 		if (glob.large != NULL)
-			f3 = smallest_addr_l(&(glob.large), last, &find);
+			smallest_addr_l(&(glob.large), last, &find);
 		if (find == last)
+		{
+			oc_putstr_fd("Total : ", 1);
+			oc_putnbr_fd(total, 1);
+			oc_putstr_fd(" octets\n", 1);
 			return ;
+		}
 		else
 		{
-			addr_header(find, f1, f2, f3);
+			total += addr_header(find, f1, f2);
 			last = find;
 		}
 	}
 }
 
-void      	show_alloc_mem()
+void			show_alloc_mem(void)
 {
 	if (glob.secu == 1)
 	{
 		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
 		return ;
 	}
-	sort_addr(0, 0, 0);
+	sort_addr(0, 0, 0, 0);
 }

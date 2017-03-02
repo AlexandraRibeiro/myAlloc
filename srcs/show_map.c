@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/28 22:17:28 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 15:12:40 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-static int	print_alloc(int i, void *block, int total)
+static int		print_alloc(int i, void *block, int total)
 {
 	t_block	*b;
 
@@ -30,7 +30,7 @@ static int	print_alloc(int i, void *block, int total)
 }
 
 /* ajouter verif secu pour eviter les segfault */
-static void read_ts_alloc(t_header **first, int total, int cas)
+static void		read_ts_alloc(t_header **first, int total, int cas)
 {
 	t_header	*h;
 	t_block		*b;
@@ -59,7 +59,7 @@ static void read_ts_alloc(t_header **first, int total, int cas)
 	}
 }
 
-static int	read_large_alloc(int total)
+static int		read_large_alloc(int total)
 {
 	t_header_lg	*h;
 	int			i;
@@ -84,7 +84,7 @@ static int	read_large_alloc(int total)
 	return (total);
 }
 
-void 	show_alloc_map()
+void			show_alloc_map(void)
 {
 	int	total_map_large;
 

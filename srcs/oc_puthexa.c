@@ -6,15 +6,15 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 12:27:07 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/28 18:04:05 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 15:03:45 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void 		oc_puthexa(size_t addr)
+void		oc_puthexa(size_t addr)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	if (addr)

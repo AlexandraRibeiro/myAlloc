@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/27 18:34:01 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 14:20:56 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	free_head_lg(t_header_lg **head, t_header_lg **previous)
 		oc_putstr_fd("ERROR MUNMAP()", 2);
 }
 
-void 	free_head_ts(t_header **head, t_header **previous, int cas)
+void	free_head_ts(t_header **head, t_header **previous, int cas)
 {
-	t_header 	*tmp;
-	t_header 	*prev;
+	t_header	*tmp;
+	t_header	*prev;
 	size_t		setsize;
 
 	tmp = *head;

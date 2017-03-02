@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 15:06:09 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/27 19:12:01 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 14:20:11 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-void 	loop_free_ts(t_header **first, int cas)
+static void		loop_free_ts(t_header **first, int cas)
 {
 	t_header *h;
 	t_header *tmp;
@@ -31,7 +31,7 @@ void 	loop_free_ts(t_header **first, int cas)
 	}
 }
 
-void 	loop_free_large()
+static void		loop_free_large(void)
 {
 	t_header_lg *l;
 
@@ -45,7 +45,7 @@ void 	loop_free_large()
 	}
 }
 
-void 	free_all()
+void			free_all(void)
 {
 	if (glob.secu == 1)
 	{
