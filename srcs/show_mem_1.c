@@ -6,18 +6,19 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 15:48:49 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 16:55:12 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-//ajouter verfi secu
 static size_t	addr_header(size_t find, size_t f1, size_t f2)
 {
 	size_t	total;
+	t_header *h;
 
 	total = 0;
+	h = (t_header *)find;
 	if (find == f1 || find == f2)
 	{
 		if (find == f1)
@@ -26,7 +27,8 @@ static size_t	addr_header(size_t find, size_t f1, size_t f2)
 			oc_putstr_fd("SMALL : ", 1);
 		oc_puthexa(find);
 		oc_putchar_fd('\n', 1);
-		addr_blocks((void *)find, NULL, NULL, &total);
+		if (h->count_alloc != h->max_alloc)
+			addr_blocks(h, NULL, NULL, &total);
 	}
 	else
 	{
@@ -38,7 +40,7 @@ static size_t	addr_header(size_t find, size_t f1, size_t f2)
 	return (total);
 }
 
-static void	smallest_addr_l(t_header_lg **first, size_t last, size_t *find)
+static void		smallest_addr_l(t_header_lg **first, size_t last, size_t *find)
 {
 	t_header_lg	*h;
 	size_t		f;
@@ -47,6 +49,7 @@ static void	smallest_addr_l(t_header_lg **first, size_t last, size_t *find)
 	f = *find;
 	while (h != NULL)
 	{
+		verif_secu(h->secu_verif, (void *)h);
 		if ((size_t)h <= last)
 			h = h->next;
 		else
@@ -70,6 +73,7 @@ static size_t	smallest_addr_ts(t_header **first, size_t last, size_t *find)
 	f = *find;
 	while (h != NULL)
 	{
+		verif_secu(h->secu_verif, (void *)h);
 		if ((size_t)h <= last)
 			h = h->next;
 		else

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 19:03:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 15:35:09 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 16:54:20 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,10 @@ void		print_in_out_addr(t_block *b, t_header_lg *hl, size_t *t)
 	oc_putstr_fd(" octets\n", 1);
 }
 
-void		addr_blocks(void *hd, t_block *b, t_block *prev, size_t *t)
+void		addr_blocks(t_header *h, t_block *b, t_block *prev, size_t *t)
 {
-	t_header	*h;
-
-	h = (t_header *)hd;
-	if (h->count_alloc == h->max_alloc)
-		return ;
 	b = h->last_block;
+	verif_secu(b->secu_verif, (void *)b);
 	if (b->previous == NULL)
 	{
 		print_in_out_addr(b, NULL, t);
@@ -52,7 +48,10 @@ void		addr_blocks(void *hd, t_block *b, t_block *prev, size_t *t)
 	while (1)
 	{
 		while (b->previous != prev)
+		{
+			verif_secu(b->secu_verif, (void *)b);
 			b = b->previous;
+		}
 		print_in_out_addr(b, NULL, t);
 		prev = b;
 		b = h->last_block;

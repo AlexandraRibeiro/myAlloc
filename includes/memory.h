@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 15:34:02 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/02 16:55:41 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void				*realloc(void *ptr, size_t size);
 ** _______ Show allocation memory _____________________________________________
 */
 void				show_alloc_mem(void);
-void				addr_blocks(void *hd, t_block *b, t_block *prev, size_t *t);
+void				addr_blocks(t_header *h, t_block *b, t_block *prev, size_t *t);
 void				print_in_out_addr(t_block *b, t_header_lg *hl, size_t *t);
 
 /*
