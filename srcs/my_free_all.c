@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 15:06:09 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 14:20:11 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:52:29 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ static void		loop_free_ts(t_header **first, int cas)
 
 static void		loop_free_large(void)
 {
-	t_header_lg *l;
+	t_header_lg	*l;
+	t_header_lg	*tmp;
 
 	l = glob.large;
+	tmp = NULL;
 	while (l != NULL)
 	{
 		if (verif_secu(l->secu_verif, (void *)l) == 1)
 			return ;
-		free_head_lg(&l, NULL);
+		free_head_lg(&l, &tmp);
 		l = glob.large;
 	}
 }

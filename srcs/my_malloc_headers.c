@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 15:31:20 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:38:53 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,12 @@ void			*header_init(t_header **first, int cas, size_t size)
 	t_header	*f;
 
 	//getrlimit
-oc_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP TINY_SMALL---------------------\n", 1);
 	h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
-// printf("ADDR PAGE = %p\n", h);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas);
 	h->count_alloc = h->max_alloc;
 	h->last_block =  (void *)h + sizeof(t_header);
-oc_putnbr_fd(h->count_alloc, 1);
-oc_putstr_fd(" allocs possibles\n\n\033[0m",1);
 	if (*first == NULL)
 	{
 		h->next = NULL;
@@ -90,13 +86,10 @@ void			*header_lg_init(t_header_lg **first, size_t size)
 
 	setsize = get_size((int)size);
 	//getrlimit
-oc_putstr_fd("\n\033[35;1m---------------------APPEL SYS MMAP LARGE---------------------\n",1);
 	h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->padding = (int)setsize;
-oc_putnbr_fd(h->padding, 1);
-oc_putstr_fd("\n\n\033[0m",1);
 	h->req_size = size;
 	h->ptr = (void *)h + sizeof(t_header_lg);
 	if (*first == NULL)

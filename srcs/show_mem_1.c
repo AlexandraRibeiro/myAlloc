@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 16:55:12 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:33:11 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,19 @@ static size_t	addr_header(size_t find, size_t f1, size_t f2)
 	if (find == f1 || find == f2)
 	{
 		if (find == f1)
-			oc_putstr_fd("TINY : ", 1);
+			oc_putstr_fd("\033[33;1mTINY : ", 1);
 		else if (find == f2)
-			oc_putstr_fd("SMALL : ", 1);
+			oc_putstr_fd("\033[33;1mSMALL : ", 1);
 		oc_puthexa(find);
-		oc_putchar_fd('\n', 1);
+		oc_putstr_fd("\033[0m\n", 1);
 		if (h->count_alloc != h->max_alloc)
 			addr_blocks(h, NULL, NULL, &total);
 	}
 	else
 	{
-		oc_putstr_fd("LARGE : ", 1);
+		oc_putstr_fd("\033[33;1mLARGE : ", 1);
 		oc_puthexa(find);
-		oc_putchar_fd('\n', 1);
+		oc_putstr_fd("\033[0m\n", 1);
 		print_in_out_addr(NULL, (t_header_lg *)find, &total);
 	}
 	return (total);
@@ -104,9 +104,9 @@ static void		sort_addr(size_t f1, size_t f2, size_t find, size_t total)
 			smallest_addr_l(&(glob.large), last, &find);
 		if (find == last)
 		{
-			oc_putstr_fd("Total : ", 1);
+			oc_putstr_fd("\033[35;1mTotal : ", 1);
 			oc_putnbr_fd(total, 1);
-			oc_putstr_fd(" octets\n", 1);
+			oc_putstr_fd(" octets\033[0m\n", 1);
 			return ;
 		}
 		else

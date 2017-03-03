@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 19:03:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 16:54:20 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:36:51 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void		print_in_out_addr(t_block *b, t_header_lg *hl, size_t *t)
 		out = (size_t)(hl->ptr + hl->req_size);
 	}
 	*t += out - in;
+	if (out - in == 0)
+		return ;
 	oc_puthexa(in);
 	oc_putstr_fd(" - ", 1);
 	oc_puthexa(out);

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 16:55:41 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:25:36 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,10 @@ struct				s_maps
 	t_header			*tiny;
 	t_header			*small;
 	t_header_lg			*large;
-}				t_maps;
+	// pthread_mutex_t		*mutex;
+};
 
-t_maps 				glob;
+extern struct s_maps glob;
 extern pthread_mutex_t g_mutex;
 
 /*

@@ -6,21 +6,21 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 14:50:15 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:47:10 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-t_maps			glob = {};
+struct s_maps			glob;
 pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-{
-	struct rlimit rlp;
-
-	if (!getrlimit(RLIMIT_DATA, &rlp))
-		max_size = rlp.rlim_cur;
-}
+//
+// {
+// 	struct rlimit rlp;
+//
+// 	if (!getrlimit(RLIMIT_DATA, &rlp))
+// 		max_size = rlp.rlim_cur;
+// }
 
 static void		*create_block(int cas, t_header **page, size_t size)
 {
@@ -109,16 +109,21 @@ void			*malloc(size_t size)
 	ptr = NULL;
 	if (glob.secu == 1)
 	{
-		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
+		oc_putstr_fd("\nERROR MALLOC / NOTIFY : data becomes corrupted\n", 2);
 		return (NULL);
 	}
 	if (size <= 0)
 	{
-		oc_putstr_fd("ERROR MALLOC : size <= 0", 2);
+		oc_putstr_fd("\nERROR MALLOC : size <= 0\n", 2);
 		return (NULL);
 	}
-	pthread_mutex_lock(&g_mutex);
-	ptr = parse_malloc_size(size);
-	pthread_mutex_unlock(&g_mutex);
+	if (pthread_mutex_lock(&g_mutex) == 0)
+	{
+		ptr = parse_malloc_size(size);
+		if (pthread_mutex_unlock(&g_mutex) != 0)
+			oc_putstr_fd("\nERROR MALLOC PTHREAD UNLOCK\n", 2);
+		return (ptr);
+	}
+	oc_putstr_fd("\nERROR MALLOC PTHREAD LOCK\n", 2);
 	return (ptr);
 }

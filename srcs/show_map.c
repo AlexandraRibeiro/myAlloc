@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 15:12:40 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 14:34:17 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int		print_alloc(int i, void *block, int total)
 		total--;
 	}
 	else
-		oc_putstr_fd("\033[35;1m M \033[0m|", 1);
+		oc_putstr_fd("\033[33;1m M \033[0m|", 1);
 	return (total);
 }
 
@@ -73,7 +73,7 @@ static int		read_large_alloc(int total)
 		if (h->req_size != 0)
 		{
 			i++;
-			oc_putstr_fd("\n\033[35;1m M \033[0m|", 1);
+			oc_putstr_fd("\n\033[33;1m M \033[0m|", 1);
 			write(1, "\n => ", 5);
 			oc_putnbr_fd(i, 1);
 			oc_putstr_fd(" allocation\n", 1);
@@ -107,8 +107,8 @@ void			show_alloc_map(void)
 	{
 		total_map_large = read_large_alloc(0);
 		oc_putstr_fd("__________________________________________________\n", 1);
-		oc_putstr_fd("\n************ LARGE MAP CREATED = ", 1);
+		oc_putstr_fd("\n\033[35;1m************ LARGE MAP CREATED = ", 1);
 		oc_putnbr_fd(total_map_large, 1);
-		oc_putchar_fd('\n', 1);
+		oc_putstr_fd("\033[0m\n\n", 1);
 	}
 }

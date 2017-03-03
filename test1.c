@@ -9,9 +9,8 @@ int		main()
 	i = 0;
 	while (i < 10)
 	{
-		addr = (char *)malloc(24);
+		addr = (char *)malloc(10024);
 		addr[0] = 42;
-		// free(addr);
 		i++;
 	}
 	i = 0;
@@ -27,7 +26,7 @@ int		main()
 	{
 		addr = (char *)malloc(28);
 		addr[0] = 42;
-		// free(addr);
+		free(addr);
 		i++;
 	}
 	free(addr);
@@ -40,6 +39,9 @@ int		main()
 		i++;
 	}
 
+	show_alloc_map();
+	show_alloc_mem();
+	free_all();
 	show_alloc_map();
 	show_alloc_mem();
 	return (0);
