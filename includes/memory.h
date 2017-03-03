@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <sys/mman.h>
 # include <sys/resource.h>
+# include <pthread.h>
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
@@ -62,9 +63,10 @@ struct				s_maps
 	t_header			*tiny;
 	t_header			*small;
 	t_header_lg			*large;
-};
+}				t_maps;
 
-extern struct s_maps glob;
+t_maps 				glob;
+extern pthread_mutex_t g_mutex;
 
 /*
 ** _______ MY MALLOC __________________________________________________________

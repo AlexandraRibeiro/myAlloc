@@ -12,7 +12,15 @@
 
 #include "memory.h"
 
-struct s_maps	glob;
+t_maps			glob = {};
+pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+{
+	struct rlimit rlp;
+
+	if (!getrlimit(RLIMIT_DATA, &rlp))
+		max_size = rlp.rlim_cur;
+}
 
 static void		*create_block(int cas, t_header **page, size_t size)
 {
@@ -96,6 +104,9 @@ static void		*parse_malloc_size(size_t size)
 
 void			*malloc(size_t size)
 {
+	void *ptr;
+
+	ptr = NULL;
 	if (glob.secu == 1)
 	{
 		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
@@ -106,5 +117,8 @@ void			*malloc(size_t size)
 		oc_putstr_fd("ERROR MALLOC : size <= 0", 2);
 		return (NULL);
 	}
-	return (parse_malloc_size(size));
+	pthread_mutex_lock(&g_mutex);
+	ptr = parse_malloc_size(size);
+	pthread_mutex_unlock(&g_mutex);
+	return (ptr);
 }
