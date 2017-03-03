@@ -28,11 +28,11 @@ int		main()
 		addr2[i] = 42;
 		i++;
 	}
-	free(addr);
+	// free(addr);
 	// realloc(addr, 1028);
 	// show_alloc_map();
 	// show_alloc_mem();
-	// free_all();
+	free_all();
 
 	return (0);
 }

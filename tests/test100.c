@@ -1,5 +1,5 @@
-// #include "memory.h"
-#include <stdlib.h>
+#include "memory.h"
+// #include <stdlib.h>
 
 int		main()
 {
@@ -17,6 +17,13 @@ int		main()
 	while (i < 105)
 	{
 		addr = (char *)malloc(1024);
+		addr[0] = 42;
+		i++;
+	}
+	i = 0;
+	while (i < 105)
+	{
+		addr = (char *)malloc(10024);
 		addr[0] = 42;
 		i++;
 	}

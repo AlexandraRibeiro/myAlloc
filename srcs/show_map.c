@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:26:48 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:50:06 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void		read_ts_alloc(t_header **first, int total, int cas, t_header *h)
 	while (h != NULL)
 	{
 		verif_secu(h->secu_verif, (void *)h);
-		oc_putstr_fd("__________________________________________________\n", 1);
+		oc_putstr_fd("\n________________________________________________\n", 1);
 		i = 0;
 		b = h->last_block;
 		if (cas == TI_PADDING)
@@ -68,15 +68,14 @@ static int		read_large_alloc(int total)
 	{
 		i = 0;
 		verif_secu(h->secu_verif, (void *)h);
-		oc_putstr_fd("__________________________________________________\n", 1);
+		oc_putstr_fd("\n________________________________________________\n", 1);
 		oc_putstr_fd("\n LARGE MAP", 1);
 		if (h->req_size != 0)
 		{
 			i++;
 			oc_putstr_fd("\n\033[33;1m M \033[0m|", 1);
-			write(1, "\n => ", 5);
+			write(1, "\n => Allocations : ", 19);
 			oc_putnbr_fd(i, 1);
-			oc_putstr_fd(" allocation\n", 1);
 		}
 		total++;
 		h = h->next;
@@ -101,7 +100,7 @@ void			show_alloc_map(void)
 	if (glob.large != NULL)
 	{
 		total_map_large = read_large_alloc(0);
-		oc_putstr_fd("__________________________________________________\n", 1);
+		oc_putstr_fd("\n________________________________________________\n", 1);
 		oc_putstr_fd("\n\033[35;1m************ LARGE MAP CREATED = ", 1);
 		oc_putnbr_fd(total_map_large, 1);
 		oc_putstr_fd("\033[0m\n\n", 1);
