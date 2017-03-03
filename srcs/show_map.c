@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:52:55 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:26:48 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,15 @@ static int		print_alloc(int i, void *block, int total)
 	return (total);
 }
 
-/* ajouter verif secu pour eviter les segfault */
-static void		read_ts_alloc(t_header **first, int total, int cas)
+static void		read_ts_alloc(t_header **first, int total, int cas, t_header *h)
 {
-	t_header	*h;
 	t_block		*b;
 	int			i;
 
 	h = *first;
 	while (h != NULL)
 	{
+		verif_secu(h->secu_verif, (void *)h);
 		oc_putstr_fd("__________________________________________________\n", 1);
 		i = 0;
 		b = h->last_block;
@@ -48,13 +47,13 @@ static void		read_ts_alloc(t_header **first, int total, int cas)
 			oc_putstr_fd("\n SMALL MAP", 1);
 		while (b != NULL)
 		{
+			verif_secu(b->secu_verif, (void *)b);
 			total = print_alloc(i, b, total);
 			i++;
 			b = b->previous;
 		}
-		write(1, "\n => ", 5);
+		write(1, "\n => Allocations : ", 19);
 		oc_putnbr_fd(total + i, 1);
-		oc_putstr_fd(" allocations\n", 1);
 		h = h->next;
 	}
 }
@@ -68,6 +67,7 @@ static int		read_large_alloc(int total)
 	while (h != NULL)
 	{
 		i = 0;
+		verif_secu(h->secu_verif, (void *)h);
 		oc_putstr_fd("__________________________________________________\n", 1);
 		oc_putstr_fd("\n LARGE MAP", 1);
 		if (h->req_size != 0)
@@ -89,20 +89,15 @@ void			show_alloc_map(void)
 	int	total_map_large;
 
 	total_map_large = 0;
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-		return ;
-	}
 	if (glob.tiny == NULL && glob.small == NULL && glob.large == NULL)
 	{
 		oc_putstr_fd("\n************ NO ALLOCATIONS\n", 2);
 		return ;
 	}
 	if (glob.tiny != NULL)
-		read_ts_alloc(&(glob.tiny), 0, TI_PADDING);
+		read_ts_alloc(&(glob.tiny), 0, TI_PADDING, NULL);
 	if (glob.small != NULL)
-		read_ts_alloc(&(glob.small), 0, SM_PADDING);
+		read_ts_alloc(&(glob.small), 0, SM_PADDING, NULL);
 	if (glob.large != NULL)
 	{
 		total_map_large = read_large_alloc(0);

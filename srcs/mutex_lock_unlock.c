@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 15:29:13 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 17:10:40 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:09:42 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,6 @@ void			*malloc(size_t size)
 	void *ptr;
 
 	ptr = NULL;
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("\nERROR MALLOC / NOTIFY : data becomes corrupted\n", 2);
-		return (NULL);
-	}
 	if (size <= 0)
 	{
 		oc_putstr_fd("\nERROR MALLOC : size <= 0\n", 2);
@@ -45,11 +40,6 @@ void			free(void *ptr)
 {
 	if (ptr == NULL)
 		return ;
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("\nFREE / NOTIFY : data becomes corrupted\n", 2);
-		return ;
-	}
 	if (pthread_mutex_lock(&g_mutex) == 0)
 	{
 		free_2(&ptr);
@@ -67,11 +57,6 @@ void			*realloc(void *ptr, size_t size)
 	addr = NULL;
 	if (size == 0)
 		return (NULL);
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("REALLOC / NOTIFY : data becomes corrupted", 2);
-		return (NULL);
-	}
 	if (ptr == NULL)
 		return (malloc(size));
 	if (pthread_mutex_lock(&g_mutex) == 0)
@@ -87,11 +72,6 @@ void			*realloc(void *ptr, size_t size)
 
 void			show_alloc_mem(void)
 {
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("ERROR SHOW_ALLOC / NOTIFY : data becomes corrupted", 2);
-		return ;
-	}
 	if (pthread_mutex_lock(&g_mutex) == 0)
 	{
 		show_alloc_mem_2(0, 0, 0, 0);

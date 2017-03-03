@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:50:34 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:13:03 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,7 @@ static void		*create_block(int cas, t_header **page, size_t size)
 
 	h = *page;
 	before = h->last_block;
-	if (before->secu_verif != (size_t)before)
-	{
-		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-		return (NULL);
-	}
+	verif_secu(before->secu_verif, (void *)before);
 	current = (void *)before + sizeof(t_block);
 	current->secu_verif = (size_t)current;
 	current->ptr = before->ptr + cas;
@@ -43,8 +39,7 @@ static void		*search_empty_block(int cas, t_header **page, size_t size)
 	b = h->last_block;
 	while (b != NULL)
 	{
-		if (verif_secu(b->secu_verif, (void *)b) == 1)
-			return (NULL);
+		verif_secu(b->secu_verif, (void *)b);
 		if (b->req_size == 0)
 		{
 			b->req_size = size;
@@ -62,8 +57,7 @@ static void		*search_place(t_header **first, int cas, size_t size)
 	tmp = *first;
 	while (1)
 	{
-		if (verif_secu(tmp->secu_verif, (void *)tmp) == 1)
-			return (NULL);
+		verif_secu(tmp->secu_verif, (void *)tmp);
 		if (tmp->count_alloc > 0)
 		{
 			tmp->count_alloc--;

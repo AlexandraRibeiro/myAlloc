@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:50:21 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:10:58 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,11 @@ static int		search_ptr_ts(int cas, void **ptr, t_block *b, t_header *prev)
 		ts = glob.tiny;
 	while (ts != NULL)
 	{
-		if (verif_secu(ts->secu_verif, (void *)ts) == 1)
-			return (0);
+		verif_secu(ts->secu_verif, (void *)ts);
 		b = ts->last_block;
 		while (b != NULL)
 		{
-			if (verif_secu(b->secu_verif, (void *)b) == 1)
-				return (0);
+			verif_secu(b->secu_verif, (void *)b);
 			if (b->ptr == *ptr)
 			{
 				free_ts(&b, &ts, &prev, cas);
@@ -73,8 +71,7 @@ void			free_2(void **ptr)
 	prev = NULL;
 	while (l != NULL)
 	{
-		if (verif_secu(l->secu_verif, (void *)l) == 1)
-			return ;
+		verif_secu(l->secu_verif, (void *)l);
 		if (l->ptr == *ptr)
 		{
 			free_head_lg(&l, &prev);

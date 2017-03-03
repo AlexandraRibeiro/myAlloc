@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 19:03:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 14:36:51 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:35:51 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void		print_in_out_addr(t_block *b, t_header_lg *hl, size_t *t)
 
 void		addr_blocks(t_header *h, t_block *b, t_block *prev, size_t *t)
 {
-	b = h->last_block;
 	verif_secu(b->secu_verif, (void *)b);
+	b = h->last_block;
 	if (b->previous == NULL)
 	{
 		print_in_out_addr(b, NULL, t);

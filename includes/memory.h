@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:54:54 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:11:06 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ typedef struct	s_header_lg
 
 struct			s_maps
 {
-	int					secu;
 	t_header			*tiny;
 	t_header			*small;
 	t_header_lg			*large;
@@ -113,6 +112,6 @@ void			*oc_memcpy(void *dst, const void *src, size_t n);
 */
 void			show_alloc_map(void);
 void			free_all(void);
-int				verif_secu(size_t secu, void *ptr);
+void			verif_secu(size_t secu, void *ptr);
 
 #endif

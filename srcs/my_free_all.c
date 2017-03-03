@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 15:06:09 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 14:52:29 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:15:48 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static void		loop_free_ts(t_header **first, int cas)
 	tmp = NULL;
 	while (h != NULL)
 	{
-		if (verif_secu(h->secu_verif, (void *)h) == 1)
-			return ;
+		verif_secu(h->secu_verif, (void *)h);
 		free_head_ts(&h, &tmp, cas);
 		if (cas == TI_PADDING)
 			h = glob.tiny;
@@ -40,8 +39,7 @@ static void		loop_free_large(void)
 	tmp = NULL;
 	while (l != NULL)
 	{
-		if (verif_secu(l->secu_verif, (void *)l) == 1)
-			return ;
+		verif_secu(l->secu_verif, (void *)l);
 		free_head_lg(&l, &tmp);
 		l = glob.large;
 	}
@@ -49,11 +47,6 @@ static void		loop_free_large(void)
 
 void			free_all(void)
 {
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("MALLOC / NOTIFY : data becomes corrupted", 2);
-		return ;
-	}
 	if (glob.tiny != NULL)
 		loop_free_ts(&(glob.tiny), TI_PADDING);
 	if (glob.small != NULL)

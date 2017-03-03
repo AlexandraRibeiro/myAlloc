@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:54:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:52:03 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 22:16:16 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,11 @@ static void		*ptr_ts_rea(void **ptr, t_header *prev, size_t size, int cas)
 		ts = glob.tiny;
 	while (ts != NULL)
 	{
-		if (verif_secu(ts->secu_verif, (void *)ts) == 1)
-			return (NULL);
+		verif_secu(ts->secu_verif, (void *)ts);
 		b = ts->last_block;
 		while (b != NULL)
 		{
-			if (verif_secu(b->secu_verif, (void *)b) == 1)
-				return (NULL);
+			verif_secu(b->secu_verif, (void *)b);
 			if (b->ptr == *ptr)
 				return (rea_ts(&b, &ts, cas, size));
 			b = b->previous;
@@ -103,15 +101,14 @@ void			*realloc_2(void **ptr, size_t size)
 	ptr2 = NULL;
 	while (l != NULL)
 	{
-		if (verif_secu(l->secu_verif, (void *)l) == 1)
-			return (NULL);
+		verif_secu(l->secu_verif, (void *)l);
 		if (l->ptr == *ptr)
 			return (rea_lg(&l, &prev, size));
 		prev = l;
 		l = l->next;
 	}
 	ptr2 = ptr_ts_rea(ptr, NULL, size, SM_PADDING);
-	if (ptr2 == NULL && glob.secu == 0)
+	if (ptr2 == NULL)
 		return (ptr_ts_rea(ptr, NULL, size, TI_PADDING));
 	else
 		return (ptr2);
