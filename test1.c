@@ -13,23 +13,25 @@ int		main()
 		addr[0] = 42;
 		i++;
 	}
+	addr = realloc(addr, 120);
 	i = 0;
 	while (i < 10)
 	{
 		addr = (char *)malloc(1024);
 		addr[0] = 42;
-		// free(addr);
 		i++;
 	}
+	addr = realloc(addr, 10020);
 	i = 0;
 	while (i < 10)
 	{
 		addr = (char *)malloc(28);
 		addr[0] = 42;
-		free(addr);
+		// realloc(addr, 500);
 		i++;
 	}
-	free(addr);
+	addr = realloc(addr, 120);
+
 	i = 0;
 	while (i < 10)
 	{
@@ -38,7 +40,7 @@ int		main()
 		// free(addr);
 		i++;
 	}
-
+	free(addr);
 	show_alloc_map();
 	show_alloc_mem();
 	free_all();

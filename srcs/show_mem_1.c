@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 14:33:11 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 15:51:05 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static size_t	smallest_addr_ts(t_header **first, size_t last, size_t *find)
 	return (f);
 }
 
-static void		sort_addr(size_t f1, size_t f2, size_t find, size_t total)
+void		show_alloc_mem_2(size_t f1, size_t f2, size_t find, size_t t)
 {
 	size_t last;
 
@@ -105,24 +105,14 @@ static void		sort_addr(size_t f1, size_t f2, size_t find, size_t total)
 		if (find == last)
 		{
 			oc_putstr_fd("\033[35;1mTotal : ", 1);
-			oc_putnbr_fd(total, 1);
+			oc_putnbr_fd(t, 1);
 			oc_putstr_fd(" octets\033[0m\n", 1);
 			return ;
 		}
 		else
 		{
-			total += addr_header(find, f1, f2);
+			t += addr_header(find, f1, f2);
 			last = find;
 		}
 	}
-}
-
-void			show_alloc_mem(void)
-{
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-		return ;
-	}
-	sort_addr(0, 0, 0, 0);
 }

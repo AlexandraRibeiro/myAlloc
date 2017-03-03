@@ -6,14 +6,14 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 14:47:10 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 15:44:27 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-struct s_maps			glob;
-pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
+// struct s_maps			glob;
+// pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
 //
 // {
 // 	struct rlimit rlp;
@@ -86,7 +86,7 @@ static void		*search_place(t_header **first, int cas, size_t size)
 	}
 }
 
-static void		*parse_malloc_size(size_t size)
+void		*malloc_2(size_t size)
 {
 	if (size <= TI_MAX && glob.tiny == NULL)
 		return (header_init(&(glob.tiny), TI_PADDING, size));
@@ -100,30 +100,4 @@ static void		*parse_malloc_size(size_t size)
 		return (header_lg_init(&(glob.large), size));
 	else
 		return (NULL);
-}
-
-void			*malloc(size_t size)
-{
-	void *ptr;
-
-	ptr = NULL;
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("\nERROR MALLOC / NOTIFY : data becomes corrupted\n", 2);
-		return (NULL);
-	}
-	if (size <= 0)
-	{
-		oc_putstr_fd("\nERROR MALLOC : size <= 0\n", 2);
-		return (NULL);
-	}
-	if (pthread_mutex_lock(&g_mutex) == 0)
-	{
-		ptr = parse_malloc_size(size);
-		if (pthread_mutex_unlock(&g_mutex) != 0)
-			oc_putstr_fd("\nERROR MALLOC PTHREAD UNLOCK\n", 2);
-		return (ptr);
-	}
-	oc_putstr_fd("\nERROR MALLOC PTHREAD LOCK\n", 2);
-	return (ptr);
 }

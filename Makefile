@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/03/02 14:51:29 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/03/03 15:43:54 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ LINK_NAME = libft_malloc.so
 
 CFLAGS = -Wall -Werror -Wextra
 
-SRC = 	my_free_all.c \
+SRC = 	mutex_lock_unlock.c \
+		my_free_all.c \
 		my_free_munmap.c \
 		my_free.c \
 		my_malloc.c \

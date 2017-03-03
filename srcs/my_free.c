@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 14:24:17 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 15:36:54 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int		search_ptr_ts(int cas, void **ptr, t_block *b, t_header *prev)
 	return (1);
 }
 
-static void		search_ptr_free(void **ptr)
+void		free_2(void **ptr)
 {
 	t_header_lg	*l;
 	t_header_lg *prev;
@@ -85,16 +85,4 @@ static void		search_ptr_free(void **ptr)
 	}
 	if (search_ptr_ts(SM_PADDING, ptr, NULL, NULL) == 1)
 		search_ptr_ts(TI_PADDING, ptr, NULL, NULL);
-}
-
-void			free(void *ptr)
-{
-	if (ptr == NULL)
-		return ;
-	if (glob.secu == 1)
-	{
-		oc_putstr_fd("MALLOC / NOTIFY : data becomes corrupted", 2);
-		return ;
-	}
-	search_ptr_free(&ptr);
 }
