@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 15:29:13 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 15:54:03 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 17:10:40 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void			show_alloc_mem(void)
 		show_alloc_mem_2(0, 0, 0, 0);
 		if (pthread_mutex_unlock(&g_mutex) != 0)
 			oc_putstr_fd("\nERROR SHOW_ALLOC PTHREAD UNLOCK\n", 2);
+		return ;
 	}
 	oc_putstr_fd("\nERROR SHOW_ALLOC PTHREAD LOCK\n", 2);
 }

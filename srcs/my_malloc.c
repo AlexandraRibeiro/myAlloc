@@ -6,21 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 15:44:27 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 17:27:10 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
-
-// struct s_maps			glob;
-// pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;
-//
-// {
-// 	struct rlimit rlp;
-//
-// 	if (!getrlimit(RLIMIT_DATA, &rlp))
-// 		max_size = rlp.rlim_cur;
-// }
 
 static void		*create_block(int cas, t_header **page, size_t size)
 {
@@ -88,16 +78,23 @@ static void		*search_place(t_header **first, int cas, size_t size)
 
 void		*malloc_2(size_t size)
 {
-	if (size <= TI_MAX && glob.tiny == NULL)
-		return (header_init(&(glob.tiny), TI_PADDING, size));
-	else if (size <= TI_MAX && glob.tiny != NULL)
-		return (search_place(&(glob.tiny), TI_PADDING, size));
-	else if (size <= SM_MAX && glob.small == NULL)
-		return (header_init(&(glob.small), SM_PADDING, size));
-	else if (size <= SM_MAX && glob.small != NULL)
-		return (search_place(&(glob.small), SM_PADDING, size));
-	else if (size > SM_MAX)
-		return (header_lg_init(&(glob.large), size));
+	struct rlimit	limits;
+
+	if (!getrlimit(RLIMIT_DATA, &limits) && size <= limits.rlim_max)
+	{
+		if (size <= TI_MAX && glob.tiny == NULL)
+			return (header_init(&(glob.tiny), TI_PADDING, size));
+		else if (size <= TI_MAX && glob.tiny != NULL)
+			return (search_place(&(glob.tiny), TI_PADDING, size));
+		else if (size <= SM_MAX && glob.small == NULL)
+			return (header_init(&(glob.small), SM_PADDING, size));
+		else if (size <= SM_MAX && glob.small != NULL)
+			return (search_place(&(glob.small), SM_PADDING, size));
+		else if (size > SM_MAX)
+			return (header_lg_init(&(glob.large), size));
+		else
+			return (NULL);
+	}
 	else
 		return (NULL);
 }
