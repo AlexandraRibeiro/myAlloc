@@ -7,12 +7,19 @@ int		main()
 	char *addr;
 
 	i = 0;
-	while (i< 1024)
+	while (i < 105)
+	{
+		addr = (char *)malloc(128);
+		addr[0] = 42;
+		i++;
+	}
+	i = 0;
+	while (i < 105)
 	{
 		addr = (char *)malloc(1024);
 		addr[0] = 42;
-		free(addr);
 		i++;
 	}
+	show_alloc_mem();
 	return (0);
 }

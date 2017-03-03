@@ -1,7 +1,7 @@
-#include "memory.h"
-// #include <stdlib.h>
-// #include <unistd.h>
-// #include <string.h>
+// #include "memory.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
 void print(char *s)
 {

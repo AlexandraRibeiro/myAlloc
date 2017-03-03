@@ -6,7 +6,7 @@
 #    By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/02/23 10:40:19 by aribeiro          #+#    #+#              #
-#    Updated: 2017/03/03 15:43:54 by aribeiro         ###   ########.fr        #
+#    Updated: 2017/03/03 18:34:37 by aribeiro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,11 +40,20 @@ SRCS = $(addprefix srcs/, $(SRC))
 
 OBJ = $(SRCS:.c=.o)
 
+#variables for colors to highlight the make results
+yellow	= \033[33;1m
+cyan	= \033[36;1m
+magenta = \033[35;1m
+vert	= \033[32;1m
+normal	= \033[0m
+
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	gcc -shared -o $(NAME) $(OBJ)
+	@printf   "\n$(magenta)Symbolic link : $(normal)\n"
 	ln -s $(NAME) $(LINK_NAME)
+	@printf   "\n\n"
 
 %.o: %.c
 	gcc -o $@ -c $< $(CFLAGS) -I./includes
