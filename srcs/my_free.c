@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 15:36:54 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:50:21 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int		search_ptr_ts(int cas, void **ptr, t_block *b, t_header *prev)
 	return (1);
 }
 
-void		free_2(void **ptr)
+void			free_2(void **ptr)
 {
 	t_header_lg	*l;
 	t_header_lg *prev;

@@ -6,15 +6,12 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 17:20:58 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:51:49 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "memory.h"
 
-/*
-** mapped in multiples of the page size
-*/
 size_t			get_size(int cas)
 {
 	size_t	i;
@@ -53,13 +50,12 @@ void			*header_init(t_header **first, int cas, size_t size)
 	t_header	*h;
 	t_header	*f;
 
-	//getrlimit
 	h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas);
 	h->count_alloc = h->max_alloc;
-	h->last_block =  (void *)h + sizeof(t_header);
+	h->last_block = (void *)h + sizeof(t_header);
 	if (*first == NULL)
 	{
 		h->next = NULL;
@@ -85,7 +81,6 @@ void			*header_lg_init(t_header_lg **first, size_t size)
 	size_t		setsize;
 
 	setsize = get_size((int)size);
-	//getrlimit
 	h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
 	f = *first;
 	h->secu_verif = (size_t)h;

@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:54:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 15:39:54 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:52:03 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void		*ptr_ts_rea(void **ptr, t_header *prev, size_t size, int cas)
 	return (NULL);
 }
 
-void		*realloc_2(void **ptr, size_t size)
+void			*realloc_2(void **ptr, size_t size)
 {
 	t_header_lg	*l;
 	t_header_lg *prev;

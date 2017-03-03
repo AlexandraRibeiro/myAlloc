@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/02 16:56:21 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:52:19 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	verif_secu(size_t secu, void *ptr)
 	{
 		glob.secu = 1;
 		oc_putstr_fd("ERROR MALLOC / NOTIFY : data becomes corrupted", 2);
-		//read CTR+C
 		return (1);
 	}
 }

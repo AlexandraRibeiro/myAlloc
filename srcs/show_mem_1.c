@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 15:51:05 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:53:48 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static size_t	addr_header(size_t find, size_t f1, size_t f2)
 {
-	size_t	total;
-	t_header *h;
+	size_t		total;
+	t_header	*h;
 
 	total = 0;
 	h = (t_header *)find;
@@ -89,7 +89,7 @@ static size_t	smallest_addr_ts(t_header **first, size_t last, size_t *find)
 	return (f);
 }
 
-void		show_alloc_mem_2(size_t f1, size_t f2, size_t find, size_t t)
+void			show_alloc_mem_2(size_t f1, size_t f2, size_t find, size_t t)
 {
 	size_t last;
 

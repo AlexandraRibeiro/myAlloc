@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:35:28 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:54:54 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <sys/mman.h>
 # include <sys/resource.h>
 # include <pthread.h>
-// # include <stdio.h>
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
@@ -64,7 +63,6 @@ struct			s_maps
 	t_header			*tiny;
 	t_header			*small;
 	t_header_lg			*large;
-	// pthread_mutex_t		*mutex;
 };
 
 extern struct s_maps glob;

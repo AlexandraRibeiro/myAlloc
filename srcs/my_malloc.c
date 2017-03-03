@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 17:27:10 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/03 18:50:34 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void		*search_place(t_header **first, int cas, size_t size)
 	}
 }
 
-void		*malloc_2(size_t size)
+void			*malloc_2(size_t size)
 {
 	struct rlimit	limits;
 
