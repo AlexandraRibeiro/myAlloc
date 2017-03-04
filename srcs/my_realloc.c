@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:54:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/04 17:31:31 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 20:24:23 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void		*rea_lg(t_header_lg **head, t_header_lg **previous, size_t size)
 
 	l = *head;
 	ptr = NULL;
-	if (size > (size_t)l->padding)
+	if (size > l->padding)
 	{
 		ptr = malloc_2(size);
 		ptr = oc_memcpy(ptr, l->ptr, l->req_size);

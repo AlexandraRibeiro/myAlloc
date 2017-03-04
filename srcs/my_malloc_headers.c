@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/04 17:29:51 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 21:30:19 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myalloc.h"
 
-size_t			get_size(int cas)
+size_t			get_size(size_t cas)
 {
 	size_t	i;
 	size_t	req;
@@ -50,7 +50,8 @@ void			*header_init(t_header **first, int cas, size_t size)
 	t_header	*h;
 	t_header	*f;
 
-	h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0);
+	if ((h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0)) == MAP_FAILED)
+		return (NULL);
 	f = *first;
 	h->secu_verif = (size_t)h;
 	h->max_alloc = (get_size(cas) - sizeof(t_header)) / (sizeof(t_block) + cas);
@@ -80,11 +81,12 @@ void			*header_lg_init(t_header_lg **first, size_t size)
 	t_header_lg	*f;
 	size_t		setsize;
 
-	setsize = get_size((int)size);
-	h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0);
+	setsize = get_size(size);
+	if ((h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0)) == MAP_FAILED)
+		return (NULL);
 	f = *first;
 	h->secu_verif = (size_t)h;
-	h->padding = (int)setsize;
+	h->padding = setsize;
 	h->req_size = size;
 	h->ptr = (void *)h + sizeof(t_header_lg);
 	if (*first == NULL)

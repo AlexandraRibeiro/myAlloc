@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/04 17:29:04 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 20:42:36 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <sys/mman.h>
 # include <sys/resource.h>
 # include <pthread.h>
+# include <stdio.h>
 
 # define MMAP_PROT		PROT_READ | PROT_WRITE
 # define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
@@ -51,7 +52,7 @@ typedef struct	s_header
 typedef struct	s_header_lg
 {
 	size_t				secu_verif;
-	int					padding;
+	size_t				padding;
 	size_t				req_size;
 	void				*ptr;
 	struct s_header_lg	*next;
@@ -73,7 +74,7 @@ void			*malloc(size_t size);
 void			*malloc_2(size_t size);
 void			*header_init(t_header **addr, int cas, size_t size);
 void			*header_lg_init(t_header_lg **first, size_t size);
-size_t			get_size(int cas);
+size_t			get_size(size_t cas);
 
 /*
 ** _______ MY FREE ____________________________________________________________
@@ -103,7 +104,7 @@ void			print_in_out_addr(t_block *b, t_header_lg *hl, size_t *t);
 void			oc_putchar_fd(char c, int fd);
 void			oc_putstr_fd(char const *s, int fd);
 void			oc_puthexa(size_t addr);
-void			oc_putnbr_fd(int n, int fd);
+void			oc_putnbr_fd(size_t n, int fd);
 void			*oc_memcpy(void *dst, const void *src, size_t n);
 
 /*

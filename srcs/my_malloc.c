@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/04 17:29:59 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 21:32:28 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void			*malloc_2(size_t size)
 {
 	struct rlimit	limits;
 
-	if (!getrlimit(RLIMIT_DATA, &limits) && size <= limits.rlim_max)
+	if (!getrlimit(RLIMIT_DATA, &limits) && size < limits.rlim_cur)
 	{
 		if (size <= TI_MAX && glob.tiny == NULL)
 			return (header_init(&(glob.tiny), TI_PADDING, size));
@@ -91,4 +91,5 @@ void			*malloc_2(size_t size)
 	}
 	else
 		return (NULL);
+	}
 }

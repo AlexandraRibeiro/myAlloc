@@ -1,16 +1,21 @@
 #include "myalloc.h"
 // #include <stdlib.h>
+// #include <stdio.h>
 
 int		main()
 {
 	// int i;
 	char *addr;
+	// size_t size = (size_t)-1;
+	// printf("size_t max == %zu\n", size);
+
+	//
 	//
 	// i = 0;
 	// while (i < 10)
-	// {
-		addr = (char *)malloc(92233720368547758077);
-		addr[0] = 42;
+	// {			     18446744073709551615
+		addr = malloc(922337203685477580);
+		// addr[0] = 42;
 		// i++;
 	// }
 	// addr = realloc(addr, 120);
@@ -45,6 +50,6 @@ int		main()
 	// show_alloc_mem();
 	// free_all();
 	// show_alloc_map();
-	// show_alloc_mem();
+	show_alloc_mem();
 	return (0);
 }
