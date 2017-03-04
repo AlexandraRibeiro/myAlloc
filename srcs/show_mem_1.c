@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 14:16:32 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 18:53:48 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:51 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 static size_t	addr_header(size_t find, size_t f1, size_t f2)
 {

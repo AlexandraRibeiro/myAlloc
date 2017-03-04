@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:53:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:50:06 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:45 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 static int		print_alloc(int i, void *block, int total)
 {

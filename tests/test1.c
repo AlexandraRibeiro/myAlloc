@@ -1,4 +1,4 @@
-// #include "memory.h"
+// #include "myalloc.h"
 #include <stdlib.h>
 
 int		main()

@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:13:03 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:29:59 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 static void		*create_block(int cas, t_header **page, size_t size)
 {

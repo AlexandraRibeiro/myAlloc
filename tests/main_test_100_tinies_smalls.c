@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/03 14:39:59 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 13:43:42 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:32:00 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 #include <stdlib.h>
 #include <stdio.h>
 

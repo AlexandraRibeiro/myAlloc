@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/11 14:11:43 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 15:41:43 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:31 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 void	oc_putnbr_fd(int n, int fd)
 {

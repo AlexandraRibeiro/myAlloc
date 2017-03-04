@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/30 15:26:46 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 16:31:10 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:38 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 void	oc_putstr_fd(char const *s, int fd)
 {

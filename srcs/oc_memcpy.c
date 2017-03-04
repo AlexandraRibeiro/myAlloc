@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/25 19:19:25 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 16:27:57 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:06 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 void			*oc_memcpy(void *dst, const void *src, size_t n)
 {

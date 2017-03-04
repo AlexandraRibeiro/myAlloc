@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/28 19:03:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:53:13 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:57 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 void		print_in_out_addr(t_block *b, t_header_lg *hl, size_t *t)
 {

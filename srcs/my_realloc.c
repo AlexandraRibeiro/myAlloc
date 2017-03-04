@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:54:39 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:16:16 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:31:31 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 static void		*rea_ts(t_block **bk, t_header **hd, int padding, size_t size)
 {
@@ -44,11 +44,9 @@ static void		*rea_ts(t_block **bk, t_header **hd, int padding, size_t size)
 static void		*rea_lg(t_header_lg **head, t_header_lg **previous, size_t size)
 {
 	t_header_lg	*l;
-	t_header_lg	*prev;
 	void		*ptr;
 
 	l = *head;
-	prev = *previous;
 	ptr = NULL;
 	if (size > (size_t)l->padding)
 	{

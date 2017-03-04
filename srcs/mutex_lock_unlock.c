@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/03 15:29:13 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:09:42 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:29:22 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 struct s_maps			glob;
 pthread_mutex_t g_mutex = PTHREAD_MUTEX_INITIALIZER;

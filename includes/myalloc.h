@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory.h                                           :+:      :+:    :+:   */
+/*   myalloc.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:11:06 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:29:04 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MEMORY_H
-# define MEMORY_H
+#ifndef MYALLOC_H
+# define MYALLOC_H
 
 # include <unistd.h>
 # include <sys/mman.h>
@@ -65,7 +65,6 @@ struct			s_maps
 };
 
 extern struct s_maps glob;
-pthread_mutex_t g_mutex;
 
 /*
 ** _______ MY MALLOC __________________________________________________________

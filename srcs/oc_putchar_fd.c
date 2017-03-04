@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 17:06:44 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/02/24 16:30:57 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:30:15 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 void	oc_putchar_fd(char c, int fd)
 {

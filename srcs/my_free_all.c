@@ -6,11 +6,11 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/27 15:06:09 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/03 22:15:48 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/04 17:29:29 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "memory.h"
+#include "myalloc.h"
 
 static void		loop_free_ts(t_header **first, int cas)
 {
