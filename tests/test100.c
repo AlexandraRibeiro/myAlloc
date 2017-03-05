@@ -28,5 +28,6 @@ int		main()
 		i++;
 	}
 	show_alloc_mem();
+	show_alloc_map();
 	return (0);
 }

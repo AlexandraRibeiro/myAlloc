@@ -10,16 +10,16 @@ int		main()
 
 	while (i < 105)
 	{
-		addr = (char *)malloc(128);
-		addr[0] = 42;
+		if ((addr = (char *)malloc(128)) != NULL)
+			addr[0] = 42;
 		if (i == 100)
 			addr2 = addr;
 		i++;
 	}
 	while (i < 105)
 	{
-		addr = (char *)malloc(128);
-		addr[0] = 42;
+		if ((addr = (char *)malloc(128)) != NULL)
+			addr[0] = 42;
 		i++;
 	}
 	i = 0;

@@ -1,5 +1,5 @@
-// #include "myalloc.h"
-#include <stdlib.h>
+#include "myalloc.h"
+// #include <stdlib.h>
 
 int		main()
 {
@@ -13,5 +13,6 @@ int		main()
 		addr[0] = 42;
 		i++;
 	}
+	show_alloc_map();
 	return (0);
 }

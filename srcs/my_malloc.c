@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/04 21:32:28 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/05 13:16:06 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,4 @@ void			*malloc_2(size_t size)
 	}
 	else
 		return (NULL);
-	}
 }
