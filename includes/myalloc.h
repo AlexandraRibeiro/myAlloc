@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:01:38 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/05 13:11:28 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/07 15:40:24 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <sys/resource.h>
 # include <pthread.h>
 
-# define MMAP_PROT		PROT_READ | PROT_WRITE
-# define MMAP_FLAGS		MAP_ANON | MAP_PRIVATE
+# define M_PROT			PROT_READ | PROT_WRITE
+# define M_FLAGS		MAP_ANON | MAP_PRIVATE
 
 # define TI_REALLOC		1/100
 # define TI_MAX			128
@@ -71,7 +71,8 @@ extern struct s_maps glob;
 */
 void			*malloc(size_t size);
 void			*malloc_2(size_t size);
-void			*header_init(t_header **addr, int cas, size_t size);
+void			*header_init
+						(t_header **addr, int cas, size_t size, t_header *h);
 void			*header_lg_init(t_header_lg **first, size_t size);
 size_t			get_size(size_t cas);
 

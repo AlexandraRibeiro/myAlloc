@@ -6,13 +6,13 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/04 21:30:19 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/07 15:37:30 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "myalloc.h"
 
-size_t			get_size(size_t cas)
+size_t		get_size(size_t cas)
 {
 	size_t	i;
 	size_t	req;
@@ -30,7 +30,7 @@ size_t			get_size(size_t cas)
 	return (i * page_size);
 }
 
-static void		*init_1_block(t_header **page, size_t size)
+static void	*init_1_block(t_header **page, size_t size)
 {
 	t_block		*b;
 	t_header	*h;
@@ -45,12 +45,11 @@ static void		*init_1_block(t_header **page, size_t size)
 	return (b->ptr);
 }
 
-void			*header_init(t_header **first, int cas, size_t size)
+void		*header_init(t_header **first, int cas, size_t size, t_header *h)
 {
-	t_header	*h;
 	t_header	*f;
 
-	if ((h = mmap(NULL, get_size(cas), MMAP_PROT, MMAP_FLAGS, -1, 0)) == MAP_FAILED)
+	if ((h = mmap(NULL, get_size(cas), M_PROT, M_FLAGS, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	f = *first;
 	h->secu_verif = (size_t)h;
@@ -75,14 +74,14 @@ void			*header_init(t_header **first, int cas, size_t size)
 	return (init_1_block(&h, size));
 }
 
-void			*header_lg_init(t_header_lg **first, size_t size)
+void		*header_lg_init(t_header_lg **first, size_t size)
 {
 	t_header_lg	*h;
 	t_header_lg	*f;
 	size_t		setsize;
 
 	setsize = get_size(size);
-	if ((h = mmap(NULL, setsize, MMAP_PROT, MMAP_FLAGS, -1, 0)) == MAP_FAILED)
+	if ((h = mmap(NULL, setsize, M_PROT, M_FLAGS, -1, 0)) == MAP_FAILED)
 		return (NULL);
 	f = *first;
 	h->secu_verif = (size_t)h;

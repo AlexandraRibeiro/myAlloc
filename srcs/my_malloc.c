@@ -6,7 +6,7 @@
 /*   By: aribeiro <aribeiro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 13:52:10 by aribeiro          #+#    #+#             */
-/*   Updated: 2017/03/05 13:16:06 by aribeiro         ###   ########.fr       */
+/*   Updated: 2017/03/07 15:38:13 by aribeiro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void		*search_place(t_header **first, int cas, size_t size)
 			return (search_empty_block(cas, &tmp, size));
 		}
 		else if (tmp->next == NULL)
-			return (header_init(first, cas, size));
+			return (header_init(first, cas, size, NULL));
 		else
 			tmp = tmp->next;
 	}
@@ -77,11 +77,11 @@ void			*malloc_2(size_t size)
 	if (!getrlimit(RLIMIT_DATA, &limits) && size < limits.rlim_cur)
 	{
 		if (size <= TI_MAX && glob.tiny == NULL)
-			return (header_init(&(glob.tiny), TI_PADDING, size));
+			return (header_init(&(glob.tiny), TI_PADDING, size, NULL));
 		else if (size <= TI_MAX && glob.tiny != NULL)
 			return (search_place(&(glob.tiny), TI_PADDING, size));
 		else if (size <= SM_MAX && glob.small == NULL)
-			return (header_init(&(glob.small), SM_PADDING, size));
+			return (header_init(&(glob.small), SM_PADDING, size, NULL));
 		else if (size <= SM_MAX && glob.small != NULL)
 			return (search_place(&(glob.small), SM_PADDING, size));
 		else if (size > SM_MAX)
